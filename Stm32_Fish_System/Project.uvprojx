@@ -336,7 +336,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>.\Start;.\Library;.\User</IncludePath>
+              <IncludePath>.\Start;.\Library;.\User;.\HardWare\OLED</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -644,6 +644,26 @@
               <FileName>startup_stm32f10x_md.s</FileName>
               <FileType>2</FileType>
               <FilePath>.\Start\startup_stm32f10x_md.s</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Hareware</GroupName>
+          <Files>
+            <File>
+              <FileName>OLED.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\智能鱼缸（24-35）\2、程序\智能鱼缸（代码）\HARDWARE\OLED\OLED.c</FilePath>
+            </File>
+            <File>
+              <FileName>OLED.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\智能鱼缸（24-35）\2、程序\智能鱼缸（代码）\HARDWARE\OLED\OLED.h</FilePath>
+            </File>
+            <File>
+              <FileName>OLED_Font.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\智能鱼缸（24-35）\2、程序\智能鱼缸（代码）\HARDWARE\OLED\OLED_Font.h</FilePath>
             </File>
           </Files>
         </Group>
