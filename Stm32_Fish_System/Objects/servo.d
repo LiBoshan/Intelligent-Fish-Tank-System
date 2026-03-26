@@ -29,3 +29,4 @@
 .\objects\servo.o: .\Library\stm32f10x_wwdg.h
 .\objects\servo.o: .\Library\misc.h
 .\objects\servo.o: HardWare\DUOJI\PWM.h
+.\objects\servo.o: C:\Users\27335\Desktop\Keil5\ARM\ARMCC\Bin\..\include\math.h

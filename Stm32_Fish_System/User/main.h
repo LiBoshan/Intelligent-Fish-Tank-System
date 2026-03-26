@@ -7,5 +7,7 @@
 #include "PWM.h"
 #include "Servo.h"
 #include "ADC.h"
+#include "DS18B20.h"
+#include "Key.h"
 
 #endif

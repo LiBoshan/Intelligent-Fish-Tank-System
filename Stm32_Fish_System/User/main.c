@@ -1,7 +1,8 @@
 #include "main.h"
 
-uint16_t level, temp;
-uint16_t Low_ThresholdVale= 20;
+uint16_t level, angle, keynum, light, count = 0;
+int16_t temp;
+uint16_t Low_ThresholdVale= 10;
 uint16_t Hight_ThresholdVale = 80;
 
 int main(void)
@@ -9,27 +10,81 @@ int main(void)
 	OLED_Init();
 	Servo_Init();
 	AD_Init();
+	DS18B20_Init();
+	Key_Init();
 	
 	OLED_ShowString(1, 1, "Level:");
 	OLED_ShowString(1, 9, "%");
-	OLED_ShowString(2, 1, "temp:");
+	OLED_ShowString(2, 1, "Photo:");
+	OLED_ShowString(2, 9, "%");
+
+	OLED_ShowString(3, 1, "temp :");
+	
+//	OLED_ShowString(3, 1, "angle:");
+//	OLED_ShowString(4, 1, "count:");
+	
 	
 	while(1)
 	{
+		
+		//按键检测
+//		keynum = Key_GetNum();
+//		if(keynum == 1)
+//		{
+//			count++;
+//		}
+//		OLED_ShowNum(4, 7, count, 3);
+		
 		
 		// 水位监测
 		level = Water_GetLevel(ADC_Channel_1);
 		if(level > Hight_ThresholdVale | level < Low_ThresholdVale)
 		{
-			OLED_ShowString(3, 1, "error");
+			OLED_ShowString(4, 1, "error");
 		}
 		else
 		{
-			OLED_ShowString(3, 1, "     ");
+			OLED_ShowString(4, 1, "     ");
 		}
 		OLED_ShowNum(1, 7, level, 2);
+
+		// 光敏检测
+		light = Photosensitive_GetValue(ADC_Channel_2);
+		OLED_ShowNum(2, 7, light, 2);
+
+
+		// 舵机转动
+//		keynum = Key_GetNum();
+//		if (keynum == 1)
+//		{
+//			angle += 30;
+//			if (angle > 180)
+//			{
+//				angle = 0;
+//			}
+//		}
+//		Servo_SetAngle(180);
+//		OLED_ShowNum(3, 7, angle, 3);
 		
-		Delay_ms(100);
-		
+
+		//  DS18B20温度检测
+		DS18B20_Rst();
+		if(DS18B20_Check())
+		{
+			OLED_ShowString(4, 8, "Error");
+		}else OLED_ShowString(4, 8, "OK   ");
+		temp = DS18B20_Get_Temp();
+		if (temp < 0)
+		{
+			OLED_ShowChar(3, 7, '-');
+			temp = -temp;   
+		}
+		else
+		{
+			OLED_ShowChar(3, 7, '+');
+		}
+		OLED_ShowNum(3, 8, temp / 10, 2);
+		OLED_ShowChar(3, 10, '.'); 
+		OLED_ShowNum(3, 11, temp % 10, 1);
 	}
 }

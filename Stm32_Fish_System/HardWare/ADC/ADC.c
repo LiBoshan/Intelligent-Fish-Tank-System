@@ -66,16 +66,15 @@ uint16_t Water_GetLevel(uint8_t ADC_Channel)
 	return data;
 }
 
-//uint16_t Temp_GetData(uint8_t ADC_Channel)
-//{
-//	uint32_t  temp = 0;
-//    for (uint8_t i = 0; i < 10; i++)
-//    {
-//        temp += AD_GetValue(ADC_Channel);
-//        Delay_ms(5);
-//    }
-
-//    temp /= 10;
-//    uint16_t data = 100 - (float)temp / 40.96;
-//	return data;
-//}
+uint16_t Photosensitive_GetValue(uint8_t ADC_Channel)
+{
+	uint32_t Photo_Value = 0;
+	for (uint8_t j = 0; j < 20; j++)
+    {
+        Photo_Value += AD_GetValue(ADC_Channel);
+        Delay_ms(5);
+    }
+	Photo_Value /= 20;
+	uint16_t data = (Photo_Value - Empty_ADC) * 100 / (Full_ADC - Empty_ADC);
+	return data;
+}

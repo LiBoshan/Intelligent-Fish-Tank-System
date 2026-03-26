@@ -19,6 +19,6 @@
 void AD_Init(void);
 uint16_t AD_GetValue(uint8_t ADC_Channel);
 uint16_t Water_GetLevel(uint8_t ADC_Channel);
-//uint16_t Temp_GetData(uint8_t ADC_Channel);
+uint16_t Photosensitive_GetValue(uint8_t ADC_Channel);
 
 #endif

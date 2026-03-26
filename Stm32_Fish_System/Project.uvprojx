@@ -336,7 +336,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>.\Start;.\Library;.\User;.\HardWare\OLED;.\System\Delay;.\HardWare\DUOJI;.\HardWare\ADC;.\HardWare\DS18B20</IncludePath>
+              <IncludePath>.\Start;.\Library;.\User;.\HardWare\OLED;.\System\Delay;.\HardWare\DUOJI;.\HardWare\ADC;.\HardWare\DS18B20;.\HardWare\Key</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -704,6 +704,16 @@
               <FileName>DS18B20.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\HardWare\DS18B20\DS18B20.h</FilePath>
+            </File>
+            <File>
+              <FileName>Key.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\HardWare\Key\Key.c</FilePath>
+            </File>
+            <File>
+              <FileName>Key.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\HardWare\Key\Key.h</FilePath>
             </File>
           </Files>
         </Group>

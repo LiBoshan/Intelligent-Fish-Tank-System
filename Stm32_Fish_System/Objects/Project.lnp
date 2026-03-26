@@ -30,6 +30,7 @@
 ".\objects\servo.o"
 ".\objects\adc.o"
 ".\objects\ds18b20.o"
+".\objects\key.o"
 ".\objects\delay.o"
 ".\objects\main.o"
 ".\objects\stm32f10x_it.o"
