@@ -2,17 +2,18 @@
 
 uint16_t level, angle, keynum, light, count = 0;
 int16_t temp;
-uint16_t Low_ThresholdVale= 10;
+uint16_t Low_ThresholdVale= 0;
 uint16_t Hight_ThresholdVale = 80;
 
 int main(void)
 {
 	OLED_Init();
+	LED_Init();
 	Servo_Init();
 	AD_Init();
 	DS18B20_Init();
 	Key_Init();
-	
+
 	OLED_ShowString(1, 1, "Level:");
 	OLED_ShowString(1, 9, "%");
 	OLED_ShowString(2, 1, "Photo:");
@@ -26,7 +27,6 @@ int main(void)
 	
 	while(1)
 	{
-		
 		//按键检测
 //		keynum = Key_GetNum();
 //		if(keynum == 1)
@@ -37,19 +37,19 @@ int main(void)
 		
 		
 		// 水位监测
-		level = Water_GetLevel(ADC_Channel_1);
-		if(level > Hight_ThresholdVale | level < Low_ThresholdVale)
+		level = Water_GetLevel();
+		if(level >= Hight_ThresholdVale | level <= Low_ThresholdVale)
 		{
-			OLED_ShowString(4, 1, "error");
+			Water_Led_Warn();
 		}
 		else
 		{
-			OLED_ShowString(4, 1, "     ");
+			LED_OFF();
 		}
 		OLED_ShowNum(1, 7, level, 2);
 
 		// 光敏检测
-		light = Photosensitive_GetValue(ADC_Channel_2);
+		light = Photosensitive_GetValue();
 		OLED_ShowNum(2, 7, light, 2);
 
 

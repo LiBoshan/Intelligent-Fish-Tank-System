@@ -36,3 +36,4 @@
 .\objects\main.o: .\HardWare\ADC\ADC.h
 .\objects\main.o: .\HardWare\DS18B20\DS18B20.h
 .\objects\main.o: .\HardWare\Key\Key.h
+.\objects\main.o: .\HardWare\LED\LED.h

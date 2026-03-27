@@ -3,8 +3,8 @@
 
 void PWM_Init(void)
 {
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
+	RCC_APB1PeriphClockCmd(TIM_PORT, ENABLE);
+	RCC_APB2PeriphClockCmd(GPIO_PORT, ENABLE);
 	
 	GPIO_InitTypeDef GPIO_InitStructure;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
@@ -33,7 +33,7 @@ void PWM_Init(void)
 	TIM_Cmd(TIM2, ENABLE);
 }
 
-void PWM_SetCompare2(uint16_t Compare)
+void PWM_SetCompare1(uint16_t Compare)
 {
 	TIM_SetCompare1(TIM2, Compare);
 }

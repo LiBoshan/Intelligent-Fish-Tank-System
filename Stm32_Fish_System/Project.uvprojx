@@ -336,7 +336,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>.\Start;.\Library;.\User;.\HardWare\OLED;.\System\Delay;.\HardWare\DUOJI;.\HardWare\ADC;.\HardWare\DS18B20;.\HardWare\Key</IncludePath>
+              <IncludePath>.\Start;.\Library;.\User;.\HardWare\OLED;.\System\Delay;.\HardWare\DUOJI;.\HardWare\ADC;.\HardWare\DS18B20;.\HardWare\Key;.\HardWare\LED</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -714,6 +714,16 @@
               <FileName>Key.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\HardWare\Key\Key.h</FilePath>
+            </File>
+            <File>
+              <FileName>LED.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\HardWare\LED\LED.c</FilePath>
+            </File>
+            <File>
+              <FileName>LED.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\HardWare\LED\LED.h</FilePath>
             </File>
           </Files>
         </Group>
