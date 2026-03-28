@@ -1,5 +1,6 @@
 #include "stm32f10x.h"                  // Device header
 #include "PWM.h"
+#include "Servo.h"
 #include "math.h"
 
 void Servo_Init(void)
