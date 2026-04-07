@@ -10,5 +10,13 @@
 #include "DS18B20.h"
 #include "Key.h"
 #include "LED.h"
+#include "USART.h"
+#include "USART2.h"
+#include "Timer.h"
+#include "Buzzer.h"
+#include "Pump.h"
+#include "gizwits_product.h"
+#include "gizwits_protocol.h"
+
 
 #endif

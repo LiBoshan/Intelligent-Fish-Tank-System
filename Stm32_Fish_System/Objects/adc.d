@@ -1,4 +1,5 @@
 .\objects\adc.o: HardWare\ADC\ADC.c
+.\objects\adc.o: HardWare\ADC\ADC.h
 .\objects\adc.o: .\Start\stm32f10x.h
 .\objects\adc.o: .\Start\core_cm3.h
 .\objects\adc.o: C:\Users\27335\Desktop\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -29,5 +30,4 @@
 .\objects\adc.o: .\Library\stm32f10x_wwdg.h
 .\objects\adc.o: .\Library\misc.h
 .\objects\adc.o: .\System\Delay\Delay.h
-.\objects\adc.o: HardWare\ADC\ADC.h
 .\objects\adc.o: .\HardWare\OLED\OLED.h

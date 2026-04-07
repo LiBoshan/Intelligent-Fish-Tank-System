@@ -32,10 +32,20 @@
 ".\objects\ds18b20.o"
 ".\objects\key.o"
 ".\objects\led.o"
+".\objects\buzzer.o"
+".\objects\pump.o"
 ".\objects\delay.o"
+".\objects\usart.o"
+".\objects\timer.o"
+".\objects\usart2.o"
 ".\objects\main.o"
 ".\objects\stm32f10x_it.o"
---strict --scatter ".\Objects\Project.sct"
+".\objects\gizwits_product.o"
+".\objects\gizwits_protocol.o"
+".\objects\common.o"
+".\objects\datapointtools.o"
+".\objects\ringbuffer.o"
+--library_type=microlib --strict --scatter ".\Objects\Project.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list ".\Listings\Project.map" -o .\Objects\Project.axf

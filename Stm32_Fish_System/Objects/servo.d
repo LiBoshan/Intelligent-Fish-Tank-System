@@ -1,4 +1,5 @@
 .\objects\servo.o: HardWare\DUOJI\Servo.c
+.\objects\servo.o: HardWare\DUOJI\Servo.h
 .\objects\servo.o: .\Start\stm32f10x.h
 .\objects\servo.o: .\Start\core_cm3.h
 .\objects\servo.o: C:\Users\27335\Desktop\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -29,5 +30,4 @@
 .\objects\servo.o: .\Library\stm32f10x_wwdg.h
 .\objects\servo.o: .\Library\misc.h
 .\objects\servo.o: HardWare\DUOJI\PWM.h
-.\objects\servo.o: HardWare\DUOJI\Servo.h
 .\objects\servo.o: C:\Users\27335\Desktop\Keil5\ARM\ARMCC\Bin\..\include\math.h

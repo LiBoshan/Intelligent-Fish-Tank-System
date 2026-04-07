@@ -1,4 +1,5 @@
 .\objects\key.o: HardWare\Key\Key.c
+.\objects\key.o: HardWare\Key\Key.h
 .\objects\key.o: .\Start\stm32f10x.h
 .\objects\key.o: .\Start\core_cm3.h
 .\objects\key.o: C:\Users\27335\Desktop\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -29,4 +30,11 @@
 .\objects\key.o: .\Library\stm32f10x_wwdg.h
 .\objects\key.o: .\Library\misc.h
 .\objects\key.o: .\System\Delay\Delay.h
-.\objects\key.o: HardWare\Key\Key.h
+.\objects\key.o: .\Gizwits\gizwits_product.h
+.\objects\key.o: .\Gizwits\gizwits_protocol.h
+.\objects\key.o: C:\Users\27335\Desktop\Keil5\ARM\ARMCC\Bin\..\include\stdbool.h
+.\objects\key.o: C:\Users\27335\Desktop\Keil5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\key.o: C:\Users\27335\Desktop\Keil5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\key.o: C:\Users\27335\Desktop\Keil5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\key.o: .\Utils\common.h
+.\objects\key.o: C:\Users\27335\Desktop\Keil5\ARM\ARMCC\Bin\..\include\ctype.h

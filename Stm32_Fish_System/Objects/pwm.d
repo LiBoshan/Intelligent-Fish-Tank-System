@@ -1,4 +1,5 @@
 .\objects\pwm.o: HardWare\DUOJI\PWM.c
+.\objects\pwm.o: HardWare\DUOJI\PWM.h
 .\objects\pwm.o: .\Start\stm32f10x.h
 .\objects\pwm.o: .\Start\core_cm3.h
 .\objects\pwm.o: C:\Users\27335\Desktop\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -28,4 +29,3 @@
 .\objects\pwm.o: .\Library\stm32f10x_usart.h
 .\objects\pwm.o: .\Library\stm32f10x_wwdg.h
 .\objects\pwm.o: .\Library\misc.h
-.\objects\pwm.o: HardWare\DUOJI\PWM.h

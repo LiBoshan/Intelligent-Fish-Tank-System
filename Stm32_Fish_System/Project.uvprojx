@@ -52,7 +52,7 @@
           <OutputName>Project</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
-          <CreateHexFile>0</CreateHexFile>
+          <CreateHexFile>1</CreateHexFile>
           <DebugInformation>1</DebugInformation>
           <BrowseInformation>1</BrowseInformation>
           <ListingPath>.\Listings\</ListingPath>
@@ -187,7 +187,7 @@
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
-            <useUlib>0</useUlib>
+            <useUlib>1</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
             <nSecure>0</nSecure>
@@ -336,7 +336,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>.\Start;.\Library;.\User;.\HardWare\OLED;.\System\Delay;.\HardWare\DUOJI;.\HardWare\ADC;.\HardWare\DS18B20;.\HardWare\Key;.\HardWare\LED</IncludePath>
+              <IncludePath>.\Start;.\Library;.\User;.\HardWare\OLED;.\System\Delay;.\HardWare\DUOJI;.\HardWare\ADC;.\HardWare\DS18B20;.\HardWare\Key;.\HardWare\LED;.\System\USART;.\System\Timer;.\System\USART2;.\Gizwits;.\Utils;.\HardWare\Buzzer;.\HardWare\Pump</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -725,6 +725,26 @@
               <FileType>5</FileType>
               <FilePath>.\HardWare\LED\LED.h</FilePath>
             </File>
+            <File>
+              <FileName>Buzzer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\HardWare\Buzzer\Buzzer.c</FilePath>
+            </File>
+            <File>
+              <FileName>Buzzer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\HardWare\Buzzer\Buzzer.h</FilePath>
+            </File>
+            <File>
+              <FileName>Pump.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\HardWare\Pump\Pump.c</FilePath>
+            </File>
+            <File>
+              <FileName>Pump.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\HardWare\Pump\Pump.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -739,6 +759,36 @@
               <FileName>Delay.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\System\Delay\Delay.h</FilePath>
+            </File>
+            <File>
+              <FileName>USART.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\System\USART\USART.c</FilePath>
+            </File>
+            <File>
+              <FileName>USART.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\System\USART\USART.h</FilePath>
+            </File>
+            <File>
+              <FileName>Timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\System\Timer\Timer.c</FilePath>
+            </File>
+            <File>
+              <FileName>Timer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\System\Timer\Timer.h</FilePath>
+            </File>
+            <File>
+              <FileName>USART2.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\System\USART2\USART2.c</FilePath>
+            </File>
+            <File>
+              <FileName>USART2.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\System\USART2\USART2.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -769,6 +819,66 @@
               <FileName>main.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\User\main.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Gizwits</GroupName>
+          <Files>
+            <File>
+              <FileName>gizwits_product.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Gizwits\gizwits_product.c</FilePath>
+            </File>
+            <File>
+              <FileName>gizwits_product.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Gizwits\gizwits_product.h</FilePath>
+            </File>
+            <File>
+              <FileName>gizwits_protocol.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Gizwits\gizwits_protocol.c</FilePath>
+            </File>
+            <File>
+              <FileName>gizwits_protocol.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Gizwits\gizwits_protocol.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Utils</GroupName>
+          <Files>
+            <File>
+              <FileName>common.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Utils\common.c</FilePath>
+            </File>
+            <File>
+              <FileName>common.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Utils\common.h</FilePath>
+            </File>
+            <File>
+              <FileName>dataPointTools.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Utils\dataPointTools.c</FilePath>
+            </File>
+            <File>
+              <FileName>dataPointTools.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Utils\dataPointTools.h</FilePath>
+            </File>
+            <File>
+              <FileName>ringbuffer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Utils\ringbuffer.c</FilePath>
+            </File>
+            <File>
+              <FileName>ringBuffer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Utils\ringBuffer.h</FilePath>
             </File>
           </Files>
         </Group>

@@ -1,7 +1,4 @@
-#include "stm32f10x.h"                  // Device header
-#include "PWM.h"
 #include "Servo.h"
-#include "math.h"
 
 void Servo_Init(void)
 {
@@ -10,5 +7,6 @@ void Servo_Init(void)
 
 void Servo_SetAngle(float Angle)
 {
-	PWM_SetCompare1(Angle / 180 * 2000 + 500);
+	uint16_t pulse = (uint16_t)(Angle / 180 * 2000 + 500);
+	PWM_SetCompare1(pulse);
 }

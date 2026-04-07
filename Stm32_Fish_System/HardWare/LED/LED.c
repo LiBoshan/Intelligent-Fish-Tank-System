@@ -1,37 +1,17 @@
 #include "LED.h"
-#include "stm32f10x.h"                  // Device header
-#include "Delay.h"
 
 void LED_Init(void)
 {
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
+    PWM_Init();
+}
 
-    GPIO_InitTypeDef GPIO_InitStructure;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-
-    GPIO_Init(GPIOA, &GPIO_InitStructure);
+void LED_SetBrightness(uint8_t percent)
+{
+    if(percent > 100) percent = 100;
+    PWM_SetCompare2(percent);
 }
 
 void LED_OFF(void)
 {
-    GPIO_ResetBits(GPIOA, GPIO_Pin_3);
-}
-
-void LED_ON(void)
-{
-    GPIO_SetBits(GPIOA, GPIO_Pin_3);
-}
-
-void Water_Led_Warn(void)
-{
-    if (GPIO_ReadOutputDataBit(GPIOA, GPIO_Pin_3) == 0)
-	{
-		GPIO_SetBits(GPIOA, GPIO_Pin_3);
-	}
-	else
-	{
-		GPIO_ResetBits(GPIOA, GPIO_Pin_3);
-	}
+    PWM_SetCompare2(0);
 }
