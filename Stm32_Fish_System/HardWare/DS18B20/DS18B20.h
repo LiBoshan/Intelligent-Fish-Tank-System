@@ -2,7 +2,7 @@
 #define  __DS18B20_H
 
 #include "stm32f10x.h"                  // Device header
-#include "Delay.h"
+#include "Timer.h"
 
 //引脚宏定义
 #define DS18B20_GPIO_PORT   GPIOB

@@ -5,7 +5,7 @@
 
 #define PUMP_GPIO_CLOCK  RCC_APB2Periph_GPIOB
 #define PUMP_GPIO_PORT   GPIOB
-#define PUMP_GPIO_PIN    GPIO_Pin_10
+#define PUMP_GPIO_PIN    GPIO_Pin_11
 
 void Pump_Init(void);
 void Pump_OFF(void);

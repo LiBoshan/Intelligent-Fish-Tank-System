@@ -29,5 +29,4 @@
 .\objects\adc.o: .\Library\stm32f10x_usart.h
 .\objects\adc.o: .\Library\stm32f10x_wwdg.h
 .\objects\adc.o: .\Library\misc.h
-.\objects\adc.o: .\System\Delay\Delay.h
-.\objects\adc.o: .\HardWare\OLED\OLED.h
+.\objects\adc.o: C:\Users\27335\Desktop\Keil5\ARM\ARMCC\Bin\..\include\stdio.h

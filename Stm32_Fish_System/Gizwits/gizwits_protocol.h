@@ -79,19 +79,32 @@ extern "C" {
 /**@name Data point related definition
 * @{
 */
-#define buzzer_LEN                           1
-#define led_LEN                           1
+#define Heater_LEN                           1
+#define In_WaterPump_LEN                           1
+#define Out_WaterPump_LEN                           1
+#define Fill_In_Light_LEN                           1
+#define Servo_LEN                           1
 
-#define temp_RATIO                         1
-#define temp_ADDITION                      0
-#define temp_MIN                           0
-#define temp_MAX                           100
-#define temp_LEN                           1
-#define water_level_RATIO                         1
-#define water_level_ADDITION                      0
-#define water_level_MIN                           0
-#define water_level_MAX                           100
-#define water_level_LEN                           1
+#define Temperature_RATIO                         1
+#define Temperature_ADDITION                      0
+#define Temperature_MIN                           0
+#define Temperature_MAX                           100
+#define Temperature_LEN                           1
+#define WaterLevel_RATIO                         1
+#define WaterLevel_ADDITION                      0
+#define WaterLevel_MIN                           0
+#define WaterLevel_MAX                           100
+#define WaterLevel_LEN                           1
+#define Light_RATIO                         1
+#define Light_ADDITION                      0
+#define Light_MIN                           0
+#define Light_MAX                           100
+#define Light_LEN                           1
+#define Turbidity_RATIO                         1
+#define Turbidity_ADDITION                      0
+#define Turbidity_MIN                           0
+#define Turbidity_MAX                           100
+#define Turbidity_LEN                           1
 
 /**@} */
 
@@ -100,6 +113,8 @@ extern "C" {
 #define COUNT_BIT 1
 
 
+/** Writable data points Boolean and enumerated variables occupy byte size */
+#define COUNT_W_BIT 1
 
 
 #define DATAPOINT_FLAG_LEN sizeof(dataPointFlags_t)		 ///< All data points FLAG occupies the maximum number of bytes
@@ -125,6 +140,11 @@ typedef enum
     WIFI_NTP,                                         ///< Network time event
     MODULE_INFO,                                      ///< Module information event
     TRANSPARENT_DATA,                                 ///< Transparency events
+    EVENT_Heater,
+    EVENT_In_WaterPump,
+    EVENT_Out_WaterPump,
+    EVENT_Fill_In_Light,
+    EVENT_Servo,
     EVENT_TYPE_MAX                                    ///< Enumerate the number of members to calculate (user accidentally deleted)
 } EVENT_TYPE_T;
 
@@ -285,25 +305,37 @@ typedef enum
 
 /** User Area Device State Structure */
 typedef struct {
-    bool valuebuzzer;
-    bool valueled;
-    uint32_t valuetemp;
-    uint32_t valuewater_level;
+    bool valueHeater;
+    bool valueIn_WaterPump;
+    bool valueOut_WaterPump;
+    bool valueFill_In_Light;
+    bool valueServo;
+    uint32_t valueTemperature;
+    uint32_t valueWaterLevel;
+    uint32_t valueLight;
+    uint32_t valueTurbidity;
 } dataPoint_t;
 
 /** User Area Device State Structure */
 typedef struct {
-    uint8_t flagbuzzer:1;
-    uint8_t flagled:1;
-    uint8_t flagtemp:1;
-    uint8_t flagwater_level:1;
+    uint8_t flagHeater:1;
+    uint8_t flagIn_WaterPump:1;
+    uint8_t flagOut_WaterPump:1;
+    uint8_t flagFill_In_Light:1;
+    uint8_t flagServo:1;
+    uint8_t flagTemperature:1;
+    uint8_t flagWaterLevel:1;
+    uint8_t flagLight:1;
+    uint8_t flagTurbidity:1;
 } dataPointFlags_t;
 
 /** Current status of WiFi module */
 typedef struct {
     uint8_t bitFeildBuf[COUNT_BIT];
-    uint8_t valuetemp;
-    uint8_t valuewater_level;
+    uint8_t valueTemperature;
+    uint8_t valueWaterLevel;
+    uint8_t valueLight;
+    uint8_t valueTurbidity;
 } devStatus_t;
 
 

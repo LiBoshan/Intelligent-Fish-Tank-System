@@ -20,5 +20,4 @@ void OLED_ShowHexNum(uint8_t Line, uint8_t Column, uint32_t Number, uint8_t Leng
 void OLED_ShowBinNum(uint8_t Line, uint8_t Column, uint32_t Number, uint8_t Length);
 void OLED_ShowChinese(uint8_t Line,uint8_t Column,uint8_t num);    //显示汉字
 void OLED_BMP(int i);           //显示图片
-
 #endif

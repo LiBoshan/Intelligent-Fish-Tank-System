@@ -1,4 +1,4 @@
-.\objects\oled.o: ..\..\..\智能鱼缸（24-35）\2、程序\智能鱼缸（代码）\HARDWARE\OLED\OLED.c
+.\objects\oled.o: HardWare\OLED\OLED.c
 .\objects\oled.o: .\Start\stm32f10x.h
 .\objects\oled.o: .\Start\core_cm3.h
 .\objects\oled.o: C:\Users\27335\Desktop\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -28,5 +28,15 @@
 .\objects\oled.o: .\Library\stm32f10x_usart.h
 .\objects\oled.o: .\Library\stm32f10x_wwdg.h
 .\objects\oled.o: .\Library\misc.h
-.\objects\oled.o: ..\..\..\智能鱼缸（24-35）\2、程序\智能鱼缸（代码）\HARDWARE\OLED\OLED_Font.h
-.\objects\oled.o: ..\..\..\智能鱼缸（24-35）\2、程序\智能鱼缸（代码）\HARDWARE\OLED\OLED.h
+.\objects\oled.o: HardWare\OLED\OLED_Font.h
+.\objects\oled.o: HardWare\OLED\oled.h
+.\objects\oled.o: .\FreeRTOS\include\FreeRTOS.h
+.\objects\oled.o: C:\Users\27335\Desktop\Keil5\ARM\ARMCC\Bin\..\include\stddef.h
+.\objects\oled.o: .\User\FreeRTOSConfig.h
+.\objects\oled.o: .\FreeRTOS\include\projdefs.h
+.\objects\oled.o: .\FreeRTOS\include\portable.h
+.\objects\oled.o: .\FreeRTOS\include\deprecated_definitions.h
+.\objects\oled.o: .\FreeRTOS\port\ARM_CM3\portmacro.h
+.\objects\oled.o: .\FreeRTOS\include\mpu_wrappers.h
+.\objects\oled.o: .\FreeRTOS\include\task.h
+.\objects\oled.o: .\FreeRTOS\include\list.h

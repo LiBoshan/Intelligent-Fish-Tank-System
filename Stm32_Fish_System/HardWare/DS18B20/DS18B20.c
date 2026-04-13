@@ -14,7 +14,6 @@ void DS18B20_Mode(uint8_t mode)
 	else
 	{
 		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
-		// GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
 		GPIO_InitStructure.GPIO_Pin = DS18B20_GPIO_PIN;
 	}
 	GPIO_Init(DS18B20_GPIO_PORT, &GPIO_InitStructure);
@@ -25,9 +24,9 @@ void DS18B20_Rst(void)
 {
 	DS18B20_Mode(OUT);
 	DS18B20_Low;
-	Delay_us(750);
+	TIM1_Delay_us(750);
 	DS18B20_High;
-	Delay_us(15);
+	TIM1_Delay_us(15);
 }
 
 /**
@@ -43,14 +42,14 @@ uint8_t DS18B20_Check(void)
 	while(GPIO_ReadInputDataBit(DS18B20_GPIO_PORT, DS18B20_GPIO_PIN) && retry < 200)
 	{
 		retry++;
-		Delay_us(1);
+		TIM1_Delay_us(1);
 	}
 	if(retry >= 200) return 1;
 	else retry = 0;
 	while(!GPIO_ReadInputDataBit(DS18B20_GPIO_PORT, DS18B20_GPIO_PIN) && retry < 240)
 	{
 		retry++;
-		Delay_us(1);
+		TIM1_Delay_us(1);
 	}
 	if(retry >= 240) return 1;
 	return 0;
@@ -66,13 +65,13 @@ uint8_t DS18B20_Read_Bit(void)
 	uint8_t data;
 	DS18B20_Mode(OUT);
 	DS18B20_Low;
-	Delay_us(2);
+	TIM1_Delay_us(2);
 	DS18B20_High;
 	DS18B20_Mode(IN);
-	Delay_us(12);
+	TIM1_Delay_us(12);
 	if(GPIO_ReadInputDataBit(DS18B20_GPIO_PORT, DS18B20_GPIO_PIN)) data =1;
 	else data = 0;
-	Delay_us(50);
+	TIM1_Delay_us(50);
 	return data;
 } 
 
@@ -104,16 +103,16 @@ void DS18B20_Write_Byte(uint8_t data)
 		if(value)
 		{
 			DS18B20_Low; // write 1
-			Delay_us(2);
+			TIM1_Delay_us(2);
 			DS18B20_High;
-			Delay_us(60);
+			TIM1_Delay_us(60);
 		}
 		else
 		{
 			DS18B20_Low; // write 0
-			Delay_us(60);
+			TIM1_Delay_us(60);
 			DS18B20_High;
-			Delay_us(2);
+			TIM1_Delay_us(2);
 		}
 	}
 }

@@ -2,7 +2,7 @@
 
 uint16_t Empty_ADC = 0;
 uint16_t Full_ADC = 4095;
-uint16_t AD_Value[2];
+uint16_t AD_Value[3];
 
 void AD_Init(void)
 {
@@ -21,8 +21,9 @@ void AD_Init(void)
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(ADC_GPIO_PORT, &GPIO_InitStructure);
 	
-	ADC_RegularChannelConfig(ADC_PORT, ADC_Channel_6, 1, ADC_SAMPLE_TIME);
-	ADC_RegularChannelConfig(ADC_PORT, ADC_Channel_7, 2, ADC_SAMPLE_TIME);
+	ADC_RegularChannelConfig(ADC_PORT, ADC_Channel_5, 1, ADC_SAMPLE_TIME);
+	ADC_RegularChannelConfig(ADC_PORT, ADC_Channel_6, 2, ADC_SAMPLE_TIME);
+	ADC_RegularChannelConfig(ADC_PORT, ADC_Channel_7, 3, ADC_SAMPLE_TIME);
 
 	//配置 ADC 参数
 	ADC_InitTypeDef ADC_InitStructure;
@@ -31,7 +32,7 @@ void AD_Init(void)
 	ADC_InitStructure.ADC_ContinuousConvMode = ENABLE;
 	ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
 	ADC_InitStructure.ADC_ScanConvMode = ENABLE;
-	ADC_InitStructure.ADC_NbrOfChannel = 2;
+	ADC_InitStructure.ADC_NbrOfChannel = 3;
 	ADC_Init(ADC_PORT, &ADC_InitStructure);
 	
 	//配置 DMA 相关参数
@@ -43,7 +44,7 @@ void AD_Init(void)
 	DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord;
 	DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
 	DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;
-	DMA_InitStructure.DMA_BufferSize = 2;
+	DMA_InitStructure.DMA_BufferSize = 3;
 	DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;
 	DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
 	DMA_InitStructure.DMA_Priority = DMA_Priority_Medium;
@@ -68,29 +69,27 @@ void AD_Init(void)
 	ADC_SoftwareStartConvCmd(ADC_PORT, ENABLE);
 }
 
+uint16_t TS_GetData(void)
+{
+    uint16_t data = AD_Value[0];
+    if (data >= 4090) return 0;
+    float TS_data = (data / 4096.0) * 3.3;
+    TS_data = -856.68 * TS_data + TS_K;
+    if(TS_data < 0) TS_data = 0;
+    if(TS_data > 3000) TS_data = 3000;
+    return (uint16_t)TS_data;
+}
+
 uint16_t Water_GetLevel(void)
 {
-	uint32_t  level = 0;
-    for (uint8_t i = 0; i < 10; i++)
-    {
-		level += AD_Value[0];
-		Delay_ms(5);
-    }
-
-    level /= 10;
+    uint16_t level = AD_Value[1];
     uint16_t data = (level - Empty_ADC) * 100 / (Full_ADC - Empty_ADC);
-	return data;
+    return data;
 }
 
 uint16_t Photosensitive_GetValue(void)
 {
-	uint32_t Photo_Value = 0;
-	for (uint8_t j = 0; j < 20; j++)
-    {
-		Photo_Value += AD_Value[1];
-		Delay_ms(5);
-    }
-	Photo_Value /= 20;
-	uint16_t data = (Photo_Value - Empty_ADC) * 100 / (Full_ADC - Empty_ADC);
-	return data;
+    uint16_t Photo_Value = AD_Value[2];
+    uint16_t data = (Photo_Value - Empty_ADC) * 100 / (Full_ADC - Empty_ADC);
+    return data;
 }

@@ -116,6 +116,26 @@ uint32_t ICACHE_FLASH_ATTR calculateDynamicBitPartLen(dataPointFlags_t *aFlag)
 {
     uint32_t bitFieldBitLen = 0,bytetmpLen= 0;
     /* Processing only writable bool Enum type data */
+    if(0x01 == aFlag->flagHeater)
+    {
+        bitFieldBitLen += Heater_LEN;
+    }
+    if(0x01 == aFlag->flagIn_WaterPump)
+    {
+        bitFieldBitLen += In_WaterPump_LEN;
+    }
+    if(0x01 == aFlag->flagOut_WaterPump)
+    {
+        bitFieldBitLen += Out_WaterPump_LEN;
+    }
+    if(0x01 == aFlag->flagFill_In_Light)
+    {
+        bitFieldBitLen += Fill_In_Light_LEN;
+    }
+    if(0x01 == aFlag->flagServo)
+    {
+        bitFieldBitLen += Servo_LEN;
+    }
 
     if(0 == bitFieldBitLen)
     {
@@ -145,6 +165,73 @@ uint32_t ICACHE_FLASH_ATTR calculateDynamicBitPartLen(dataPointFlags_t *aFlag)
 */
 static int8_t ICACHE_FLASH_ATTR gizDataPoint2Event(uint8_t *issuedData, eventInfo_t *info, dataPoint_t *dataPoints)
 {
+    uint32_t bitFieldByteLen= 0;//Bit segment length
+    uint32_t bitFieldOffset = 0;//Bit position offset
+    uint32_t byteFieldOffset = 0;//Byte segment offset
+
+    gizwitsElongateP0Form_t elongateP0FormTmp;
+    gizMemset((uint8_t *)&elongateP0FormTmp,0,sizeof(gizwitsElongateP0Form_t));
+    gizMemcpy((uint8_t *)&elongateP0FormTmp.devDatapointFlag,issuedData,DATAPOINT_FLAG_LEN);
+
+    if((NULL == issuedData) || (NULL == info) ||(NULL == dataPoints))
+    {
+        GIZWITS_LOG("gizDataPoint2Event Error , Illegal Param\n");
+        return -1;
+    }
+	
+    /** Greater than 1 byte to do bit conversion **/
+    if(DATAPOINT_FLAG_LEN > 1)
+    {
+        if(-1 == gizByteOrderExchange((uint8_t *)&elongateP0FormTmp.devDatapointFlag,DATAPOINT_FLAG_LEN))
+        {
+            GIZWITS_LOG("gizByteOrderExchange Error\n");
+            return -1;
+        }
+    }
+    /* Calculates the byte length occupied by the segment */
+    bitFieldByteLen = calculateDynamicBitPartLen(&elongateP0FormTmp.devDatapointFlag);
+    byteFieldOffset += bitFieldByteLen + DATAPOINT_FLAG_LEN;//Value segment byte offset
+
+    if(0x01 == elongateP0FormTmp.devDatapointFlag.flagHeater)
+    {
+        info->event[info->num] = EVENT_Heater;
+        info->num++;
+        dataPoints->valueHeater = gizVarlenDecompressionValue(bitFieldOffset,Heater_LEN,(uint8_t *)&issuedData[DATAPOINT_FLAG_LEN],bitFieldByteLen);
+        bitFieldOffset += Heater_LEN;
+    }
+
+    if(0x01 == elongateP0FormTmp.devDatapointFlag.flagIn_WaterPump)
+    {
+        info->event[info->num] = EVENT_In_WaterPump;
+        info->num++;
+        dataPoints->valueIn_WaterPump = gizVarlenDecompressionValue(bitFieldOffset,In_WaterPump_LEN,(uint8_t *)&issuedData[DATAPOINT_FLAG_LEN],bitFieldByteLen);
+        bitFieldOffset += In_WaterPump_LEN;
+    }
+
+    if(0x01 == elongateP0FormTmp.devDatapointFlag.flagOut_WaterPump)
+    {
+        info->event[info->num] = EVENT_Out_WaterPump;
+        info->num++;
+        dataPoints->valueOut_WaterPump = gizVarlenDecompressionValue(bitFieldOffset,Out_WaterPump_LEN,(uint8_t *)&issuedData[DATAPOINT_FLAG_LEN],bitFieldByteLen);
+        bitFieldOffset += Out_WaterPump_LEN;
+    }
+
+    if(0x01 == elongateP0FormTmp.devDatapointFlag.flagFill_In_Light)
+    {
+        info->event[info->num] = EVENT_Fill_In_Light;
+        info->num++;
+        dataPoints->valueFill_In_Light = gizVarlenDecompressionValue(bitFieldOffset,Fill_In_Light_LEN,(uint8_t *)&issuedData[DATAPOINT_FLAG_LEN],bitFieldByteLen);
+        bitFieldOffset += Fill_In_Light_LEN;
+    }
+
+    if(0x01 == elongateP0FormTmp.devDatapointFlag.flagServo)
+    {
+        info->event[info->num] = EVENT_Servo;
+        info->num++;
+        dataPoints->valueServo = gizVarlenDecompressionValue(bitFieldOffset,Servo_LEN,(uint8_t *)&issuedData[DATAPOINT_FLAG_LEN],bitFieldByteLen);
+        bitFieldOffset += Servo_LEN;
+    }
+
 
     return 0;
 }
@@ -171,34 +258,70 @@ static int8_t ICACHE_FLASH_ATTR gizCheckReport(dataPoint_t *cur, dataPoint_t *la
     }
     currentTime = gizGetTimerCount();
 
-    if(last->valuebuzzer != cur->valuebuzzer)
+    if(last->valueHeater != cur->valueHeater)
     {
-        GIZWITS_LOG("valuebuzzer Changed\n");
-        gizwitsProtocol.waitReportDatapointFlag.flagbuzzer = 1;
+        GIZWITS_LOG("valueHeater Changed\n");
+        gizwitsProtocol.waitReportDatapointFlag.flagHeater = 1;
         ret = 1;
     }
-    if(last->valueled != cur->valueled)
+    if(last->valueIn_WaterPump != cur->valueIn_WaterPump)
     {
-        GIZWITS_LOG("valueled Changed\n");
-        gizwitsProtocol.waitReportDatapointFlag.flagled = 1;
+        GIZWITS_LOG("valueIn_WaterPump Changed\n");
+        gizwitsProtocol.waitReportDatapointFlag.flagIn_WaterPump = 1;
+        ret = 1;
+    }
+    if(last->valueOut_WaterPump != cur->valueOut_WaterPump)
+    {
+        GIZWITS_LOG("valueOut_WaterPump Changed\n");
+        gizwitsProtocol.waitReportDatapointFlag.flagOut_WaterPump = 1;
+        ret = 1;
+    }
+    if(last->valueFill_In_Light != cur->valueFill_In_Light)
+    {
+        GIZWITS_LOG("valueFill_In_Light Changed\n");
+        gizwitsProtocol.waitReportDatapointFlag.flagFill_In_Light = 1;
+        ret = 1;
+    }
+    if(last->valueServo != cur->valueServo)
+    {
+        GIZWITS_LOG("valueServo Changed\n");
+        gizwitsProtocol.waitReportDatapointFlag.flagServo = 1;
         ret = 1;
     }
 
-    if(last->valuetemp != cur->valuetemp)
+    if(last->valueTemperature != cur->valueTemperature)
     {
         if(currentTime - lastReportTime >= REPORT_TIME_MAX)
         {
-            GIZWITS_LOG("valuetemp Changed\n");
-            gizwitsProtocol.waitReportDatapointFlag.flagtemp = 1;
+            GIZWITS_LOG("valueTemperature Changed\n");
+            gizwitsProtocol.waitReportDatapointFlag.flagTemperature = 1;
             ret = 1;
         }
     }
-    if(last->valuewater_level != cur->valuewater_level)
+    if(last->valueWaterLevel != cur->valueWaterLevel)
     {
         if(currentTime - lastReportTime >= REPORT_TIME_MAX)
         {
-            GIZWITS_LOG("valuewater_level Changed\n");
-            gizwitsProtocol.waitReportDatapointFlag.flagwater_level = 1;
+            GIZWITS_LOG("valueWaterLevel Changed\n");
+            gizwitsProtocol.waitReportDatapointFlag.flagWaterLevel = 1;
+            ret = 1;
+        }
+    }
+    if(last->valueLight != cur->valueLight)
+    {
+        if(currentTime - lastReportTime >= REPORT_TIME_MAX)
+        {
+            GIZWITS_LOG("valueLight Changed\n");
+            gizwitsProtocol.waitReportDatapointFlag.flagLight = 1;
+            ret = 1;
+        }
+    }
+    if(last->valueTurbidity != cur->valueTurbidity)
+    {
+        if(currentTime - lastReportTime >= REPORT_TIME_MAX)
+        {
+            GIZWITS_LOG("valueTurbidity Changed\n");
+            gizwitsProtocol.waitReportDatapointFlag.flagTurbidity = 1;
             ret = 1;
         }
     }
@@ -242,15 +365,30 @@ static int8_t ICACHE_FLASH_ATTR gizDataPoints2ReportData(dataPoint_t *dataPoints
     }
 
     /*** Fill the bit ***/
-    if(gizwitsProtocol.waitReportDatapointFlag.flagbuzzer)
+    if(gizwitsProtocol.waitReportDatapointFlag.flagHeater)
     {
-        gizVarlenCompressValue(bitFieldOffset,buzzer_LEN,(uint8_t *)&allDatapointByteBuf[byteFieldOffset],dataPoints->valuebuzzer);
-        bitFieldOffset += buzzer_LEN;
+        gizVarlenCompressValue(bitFieldOffset,Heater_LEN,(uint8_t *)&allDatapointByteBuf[byteFieldOffset],dataPoints->valueHeater);
+        bitFieldOffset += Heater_LEN;
     }
-    if(gizwitsProtocol.waitReportDatapointFlag.flagled)
+    if(gizwitsProtocol.waitReportDatapointFlag.flagIn_WaterPump)
     {
-        gizVarlenCompressValue(bitFieldOffset,led_LEN,(uint8_t *)&allDatapointByteBuf[byteFieldOffset],dataPoints->valueled);
-        bitFieldOffset += led_LEN;
+        gizVarlenCompressValue(bitFieldOffset,In_WaterPump_LEN,(uint8_t *)&allDatapointByteBuf[byteFieldOffset],dataPoints->valueIn_WaterPump);
+        bitFieldOffset += In_WaterPump_LEN;
+    }
+    if(gizwitsProtocol.waitReportDatapointFlag.flagOut_WaterPump)
+    {
+        gizVarlenCompressValue(bitFieldOffset,Out_WaterPump_LEN,(uint8_t *)&allDatapointByteBuf[byteFieldOffset],dataPoints->valueOut_WaterPump);
+        bitFieldOffset += Out_WaterPump_LEN;
+    }
+    if(gizwitsProtocol.waitReportDatapointFlag.flagFill_In_Light)
+    {
+        gizVarlenCompressValue(bitFieldOffset,Fill_In_Light_LEN,(uint8_t *)&allDatapointByteBuf[byteFieldOffset],dataPoints->valueFill_In_Light);
+        bitFieldOffset += Fill_In_Light_LEN;
+    }
+    if(gizwitsProtocol.waitReportDatapointFlag.flagServo)
+    {
+        gizVarlenCompressValue(bitFieldOffset,Servo_LEN,(uint8_t *)&allDatapointByteBuf[byteFieldOffset],dataPoints->valueServo);
+        bitFieldOffset += Servo_LEN;
     }
 
     /* The bit segment is assembled and the offset of the value segment is calculated */
@@ -279,17 +417,29 @@ static int8_t ICACHE_FLASH_ATTR gizDataPoints2ReportData(dataPoint_t *dataPoints
 
     /*** Handle the value segment ***/
 
-    if(gizwitsProtocol.waitReportDatapointFlag.flagtemp)
+    if(gizwitsProtocol.waitReportDatapointFlag.flagTemperature)
     {
-        devStatusTmp.valuetemp = gizY2X(temp_RATIO,  temp_ADDITION, dataPoints->valuetemp); 
-        gizMemcpy((uint8_t *)&allDatapointByteBuf[byteFieldOffset],(uint8_t *)&devStatusTmp.valuetemp,temp_LEN);
-        byteFieldOffset += temp_LEN;
+        devStatusTmp.valueTemperature = gizY2X(Temperature_RATIO,  Temperature_ADDITION, dataPoints->valueTemperature); 
+        gizMemcpy((uint8_t *)&allDatapointByteBuf[byteFieldOffset],(uint8_t *)&devStatusTmp.valueTemperature,Temperature_LEN);
+        byteFieldOffset += Temperature_LEN;
     }
-    if(gizwitsProtocol.waitReportDatapointFlag.flagwater_level)
+    if(gizwitsProtocol.waitReportDatapointFlag.flagWaterLevel)
     {
-        devStatusTmp.valuewater_level = gizY2X(water_level_RATIO,  water_level_ADDITION, dataPoints->valuewater_level); 
-        gizMemcpy((uint8_t *)&allDatapointByteBuf[byteFieldOffset],(uint8_t *)&devStatusTmp.valuewater_level,water_level_LEN);
-        byteFieldOffset += water_level_LEN;
+        devStatusTmp.valueWaterLevel = gizY2X(WaterLevel_RATIO,  WaterLevel_ADDITION, dataPoints->valueWaterLevel); 
+        gizMemcpy((uint8_t *)&allDatapointByteBuf[byteFieldOffset],(uint8_t *)&devStatusTmp.valueWaterLevel,WaterLevel_LEN);
+        byteFieldOffset += WaterLevel_LEN;
+    }
+    if(gizwitsProtocol.waitReportDatapointFlag.flagLight)
+    {
+        devStatusTmp.valueLight = gizY2X(Light_RATIO,  Light_ADDITION, dataPoints->valueLight); 
+        gizMemcpy((uint8_t *)&allDatapointByteBuf[byteFieldOffset],(uint8_t *)&devStatusTmp.valueLight,Light_LEN);
+        byteFieldOffset += Light_LEN;
+    }
+    if(gizwitsProtocol.waitReportDatapointFlag.flagTurbidity)
+    {
+        devStatusTmp.valueTurbidity = gizY2X(Turbidity_RATIO,  Turbidity_ADDITION, dataPoints->valueTurbidity); 
+        gizMemcpy((uint8_t *)&allDatapointByteBuf[byteFieldOffset],(uint8_t *)&devStatusTmp.valueTurbidity,Turbidity_LEN);
+        byteFieldOffset += Turbidity_LEN;
     }
 
 
@@ -327,6 +477,9 @@ static int8_t gizProtocolIssuedProcess(char *did, uint8_t *inData, uint32_t inLe
     switch(issuedAction)
     {
         case ACTION_CONTROL_DEVICE:
+            GIZWITS_LOG("ACTION_ELONGATE_CONTROL_DEVICE \n");
+            gizDataPoint2Event(&inData[1], &gizwitsProtocol.issuedProcessEvent,&gizwitsProtocol.gizCurrentDataPoint);
+            gizwitsProtocol.issuedFlag = ACTION_CONTROL_TYPE;
             outData = NULL;
             *outLen = 0;
             break;

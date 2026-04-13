@@ -6,8 +6,6 @@
                 "c:\\Users\\27335\\Desktop\\智能鱼缸\\Intelligent-Fish-Tank-System\\Stm32_Fish_System\\Start",
                 "c:\\Users\\27335\\Desktop\\智能鱼缸\\Intelligent-Fish-Tank-System\\Stm32_Fish_System\\Library",
                 "c:\\Users\\27335\\Desktop\\智能鱼缸\\Intelligent-Fish-Tank-System\\Stm32_Fish_System\\User",
-                "c:\\Users\\27335\\Desktop\\智能鱼缸\\Intelligent-Fish-Tank-System\\Stm32_Fish_System\\HardWare\\OLED",
-                "c:\\Users\\27335\\Desktop\\智能鱼缸\\Intelligent-Fish-Tank-System\\Stm32_Fish_System\\System\\Delay",
                 "c:\\Users\\27335\\Desktop\\智能鱼缸\\Intelligent-Fish-Tank-System\\Stm32_Fish_System\\HardWare\\DUOJI",
                 "c:\\Users\\27335\\Desktop\\智能鱼缸\\Intelligent-Fish-Tank-System\\Stm32_Fish_System\\HardWare\\ADC",
                 "c:\\Users\\27335\\Desktop\\智能鱼缸\\Intelligent-Fish-Tank-System\\Stm32_Fish_System\\HardWare\\DS18B20",
@@ -20,9 +18,15 @@
                 "c:\\Users\\27335\\Desktop\\智能鱼缸\\Intelligent-Fish-Tank-System\\Stm32_Fish_System\\Utils",
                 "c:\\Users\\27335\\Desktop\\智能鱼缸\\Intelligent-Fish-Tank-System\\Stm32_Fish_System\\HardWare\\Buzzer",
                 "c:\\Users\\27335\\Desktop\\智能鱼缸\\Intelligent-Fish-Tank-System\\Stm32_Fish_System\\HardWare\\Pump",
+                "c:\\Users\\27335\\Desktop\\智能鱼缸\\Intelligent-Fish-Tank-System\\Stm32_Fish_System\\FreeRTOS\\include",
+                "c:\\Users\\27335\\Desktop\\智能鱼缸\\Intelligent-Fish-Tank-System\\Stm32_Fish_System\\FreeRTOS\\port\\MemMang",
+                "c:\\Users\\27335\\Desktop\\智能鱼缸\\Intelligent-Fish-Tank-System\\Stm32_Fish_System\\FreeRTOS\\port\\ARM_CM3",
+                "c:\\Users\\27335\\Desktop\\智能鱼缸\\Intelligent-Fish-Tank-System\\Stm32_Fish_System\\FreeRTOS\\src",
+                "c:\\Users\\27335\\Desktop\\智能鱼缸\\Intelligent-Fish-Tank-System\\Stm32_Fish_System\\HardWare\\PTC",
+                "c:\\Users\\27335\\Desktop\\智能鱼缸\\Intelligent-Fish-Tank-System\\Stm32_Fish_System\\HardWare\\OLED",
+                "c:\\Users\\27335\\Desktop\\智能鱼缸\\Intelligent-Fish-Tank-System\\Stm32_Fish_System\\HardWare\\Display",
                 "C:\\Users\\27335\\Desktop\\Keil5\\ARM\\ARMCC\\include",
-                "C:\\Users\\27335\\Desktop\\Keil5\\ARM\\ARMCC\\include\\rw",
-                "c:\\Users\\27335\\Desktop\\智能鱼缸（24-35）\\2、程序\\智能鱼缸（代码）\\HARDWARE\\OLED"
+                "C:\\Users\\27335\\Desktop\\Keil5\\ARM\\ARMCC\\include\\rw"
             ],
             "defines": [
                 "USE_STDPERIPH_DRIVER",

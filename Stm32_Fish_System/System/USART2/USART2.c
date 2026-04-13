@@ -25,7 +25,7 @@ void USART2_Config(void)
     NVIC_InitTypeDef NVIC_InitStructure;
     NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQn;
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 5;
     NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;
     
     NVIC_Init(&NVIC_InitStructure);
@@ -51,18 +51,10 @@ void USART2_Config(void)
 void USART2_IRQHandler(void)
 {
     uint8_t Res;
-    static uint8_t dbg_cnt = 0;
     if(USART_GetITStatus(USART2, USART_IT_RXNE) != RESET)
     {
         USART_ClearITPendingBit(USART2,USART_IT_RXNE);
         Res = USART_ReceiveData(USART2);
-        
-        dbg_cnt++;
-        if(dbg_cnt % 10 == 0)
-        {
-            printf("[ESP->RX] %02X\r\n", Res);
-        }
-
         gizPutData(&Res, 1);
     }
 

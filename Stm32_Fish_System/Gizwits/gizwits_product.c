@@ -16,12 +16,13 @@
 #include <stdio.h>
 #include <string.h>
 #include "gizwits_product.h"
-#include "USART2.h"
 
 static uint32_t timerMsCount;
 
-extern uint16_t level;
-extern int16_t temp;
+extern volatile uint16_t tsdata;
+extern volatile uint16_t level;
+extern volatile uint16_t light;
+extern volatile int16_t temp;
 
 /** Current datapoint */
 dataPoint_t currentDataPoint;
@@ -68,6 +69,72 @@ int8_t gizwitsEventProcess(eventInfo_t *info, uint8_t *gizdata, uint32_t len)
     {
         switch(info->event[i])
         {
+        case EVENT_Heater:
+            currentDataPoint.valueHeater = dataPointPtr->valueHeater;
+            GIZWITS_LOG("Evt: EVENT_Heater %d \n", currentDataPoint.valueHeater);
+            if(0x01 == currentDataPoint.valueHeater)
+            {
+            //user handle
+                PTC_ON();
+            }
+            else
+            {
+            //user handle    
+                PTC_OFF();
+            }
+            break;
+        case EVENT_In_WaterPump:
+            currentDataPoint.valueIn_WaterPump = dataPointPtr->valueIn_WaterPump;
+            GIZWITS_LOG("Evt: EVENT_In_WaterPump %d \n", currentDataPoint.valueIn_WaterPump);
+            if(0x01 == currentDataPoint.valueIn_WaterPump)
+            {
+            //user handle
+            }
+            else
+            {
+            //user handle    
+            }
+            break;
+        case EVENT_Out_WaterPump:
+            currentDataPoint.valueOut_WaterPump = dataPointPtr->valueOut_WaterPump;
+            GIZWITS_LOG("Evt: EVENT_Out_WaterPump %d \n", currentDataPoint.valueOut_WaterPump);
+            if(0x01 == currentDataPoint.valueOut_WaterPump)
+            {
+            //user handle
+            }
+            else
+            {
+            //user handle    
+            }
+            break;
+        case EVENT_Fill_In_Light:
+            currentDataPoint.valueFill_In_Light = dataPointPtr->valueFill_In_Light;
+            GIZWITS_LOG("Evt: EVENT_Fill_In_Light %d \n", currentDataPoint.valueFill_In_Light);
+            if(0x01 == currentDataPoint.valueFill_In_Light)
+            {
+            //user handle
+                LED_SetBrightness(light);
+            }
+            else
+            {
+            //user handle    
+                LED_OFF();
+            }
+            break;
+        case EVENT_Servo:
+            currentDataPoint.valueServo = dataPointPtr->valueServo;
+            GIZWITS_LOG("Evt: EVENT_Servo %d \n", currentDataPoint.valueServo);
+            if(0x01 == currentDataPoint.valueServo)
+            {
+            //user handle
+                Servo_SetAngle(60);
+            }
+            else
+            {
+            //user handle    
+                Servo_SetAngle(0);
+            }
+            break;
 
 
 
@@ -130,10 +197,10 @@ int8_t gizwitsEventProcess(eventInfo_t *info, uint8_t *gizdata, uint32_t len)
 void userHandle(void)
 {
 
-    currentDataPoint.valuebuzzer = 0;//Add Sensor Data Collection
-    currentDataPoint.valueled = 0;//Add Sensor Data Collection
-    currentDataPoint.valuetemp = temp;//Add Sensor Data Collection
-    currentDataPoint.valuewater_level = level;//Add Sensor Data Collection
+    currentDataPoint.valueTemperature = temp / 10;//Add Sensor Data Collection  温度
+    currentDataPoint.valueWaterLevel = level;//Add Sensor Data Collection   水位
+    currentDataPoint.valueLight = light;//Add Sensor Data Collection        光照
+    currentDataPoint.valueTurbidity = tsdata;//Add Sensor Data Collection    浊度
     
 }
 
@@ -150,11 +217,16 @@ void userInit(void)
     memset((uint8_t*)&currentDataPoint, 0, sizeof(dataPoint_t));
     
     /** Warning !!! DataPoint Variables Init , Must Within The Data Range **/ 
-    currentDataPoint.valuebuzzer = 0;
-    currentDataPoint.valueled = 0;
-    currentDataPoint.valuetemp = 0;
-    currentDataPoint.valuewater_level = 0;
 
+    currentDataPoint.valueHeater = 0;
+    currentDataPoint.valueIn_WaterPump = 0;
+    currentDataPoint.valueOut_WaterPump = 0;
+    currentDataPoint.valueFill_In_Light = 1;
+    currentDataPoint.valueServo = 0;
+    currentDataPoint.valueTemperature = 0;
+    currentDataPoint.valueWaterLevel = 0;
+    currentDataPoint.valueLight = 0;
+    currentDataPoint.valueTurbidity = 0;
 }
 
 

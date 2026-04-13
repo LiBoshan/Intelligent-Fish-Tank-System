@@ -21,6 +21,7 @@ extern "C" {
 #endif
 #include <stdint.h>
 #include "gizwits_protocol.h"
+#include "main.h"
 
 /**
 * MCU software version
