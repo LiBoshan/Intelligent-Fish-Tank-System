@@ -60,8 +60,8 @@ void Display_Manual(uint8_t full_refresh)
     }
 
     // 更新状态数值
-    OLED_ShowString(1, 6, pump_state ? "ON " : "OFF");
-    OLED_ShowString(2, 6, "OFF"); // 补水泵暂无状态变量，先保持OFF
+    OLED_ShowString(1, 6, pump_out_state ? "ON " : "OFF");
+    OLED_ShowString(2, 6, pump_in_state ? "ON " : "OFF"); 
     OLED_ShowString(3, 6, ptc_state ? "ON " : "OFF");
     OLED_ShowString(4, 6, servo_state ? "ON " : "OFF");
 }
@@ -135,23 +135,59 @@ void Display_Remote(uint8_t full_refresh)
         
         // 显示当前ESP模式标签
         OLED_ShowString(1, 1, "Mode:");
+
+        // 水位标签
+        OLED_ShowString(3, 1, "lev:");
+        OLED_ShowString(3, 7, "%");
+
+        // 浊度标签
+        OLED_ShowString(3, 10, "ts:");
+
+        // 光照标签
+        OLED_ShowString(4, 1, "pho:");
+        OLED_ShowString(4, 7, "%");
+
+        // 温度标签
+        OLED_ShowString(4, 10, "tem:");
     }
     
+    // 水位数值
+    OLED_ShowNum(3, 5, level, 2);
+
+    // 浊度数值
+    OLED_ShowNum(3, 13, tsdata, 4);
+
+    // 光照数值
+    OLED_ShowNum(4, 5, (100 - light), 2);
+
+    // 温度数值
+    int16_t temp_val = temp;
+    if (temp_val < 0)
+    {
+        OLED_ShowChar(4, 14, '-');
+        temp_val = -temp_val;
+    }
+    else
+    {
+        OLED_ShowChar(4, 14, '+');
+    }
+    OLED_ShowNum(4, 15, temp_val / 10, 2);
+
     // 动态显示模式
     if (current_esp_mode == 1) 
     {
-        OLED_ShowString(2, 2, "AirLink  ");
+        OLED_ShowString(2, 1, "AirLink  ");
     } 
     else if (current_esp_mode == 2) 
     {
-        OLED_ShowString(2, 2, "SoftAP   ");
+        OLED_ShowString(2, 1, "SoftAP   ");
     } 
     else if (current_esp_mode == 3) 
     {
-        OLED_ShowString(2, 2, "Resetting");
+        OLED_ShowString(2, 1, "Resetting");
     } 
     else 
     {
-        OLED_ShowString(2, 2, "None     ");
+        OLED_ShowString(2, 1, "None     ");
     }
 }

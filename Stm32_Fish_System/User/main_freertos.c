@@ -1,8 +1,6 @@
 #include "main_freertos.h"
 #include "main.h"
 
-
-
 extern dataPoint_t currentDataPoint;
 
 TaskHandle_t sensor_task_handle;
@@ -17,20 +15,23 @@ volatile uint16_t light = 0;
 volatile int16_t temp = 0;
 
 volatile uint16_t ptc_count = 0;
-volatile uint16_t pump_count = 0;
+volatile uint16_t pump_out_count = 0;
+volatile uint16_t pump_in_count = 0;
 volatile uint16_t servo_count = 0;
 
-uint16_t Hight_ThresholdVale = 80;
-uint16_t Low_Light = 60;
+uint8_t Hight_ThresholdVale = 80;
+uint8_t Low_ThresholdVale = 20;
 
 volatile uint8_t servo_state = 0;
-volatile uint8_t pump_state = 0;
+volatile uint8_t pump_out_state = 0;
+volatile uint8_t pump_in_state = 0;
 volatile uint8_t ptc_state = 0;
 
 
 // 按键触发标志
 volatile uint8_t key_servo_flag = 0;
-volatile uint8_t key_pump_flag = 0;
+volatile uint8_t key_pump_in_flag = 0;
+volatile uint8_t key_pump_out_flag = 0;
 volatile uint8_t key_ptc_flag = 0;
 
 volatile uint8_t key_airlink_flag = 0;
@@ -126,9 +127,10 @@ void Key_task(void *pvParameters)
             {
                 if (currentMode == MODE_MANUAL)
                 {
-                    key_pump_flag = 1;
+                    key_pump_out_flag = 1;
                 }
             }
+
             else if (key == KEY_SHORT_PC13)
             {
                 if (menuState == MENU_SELECT)
@@ -142,7 +144,7 @@ void Key_task(void *pvParameters)
                 }
                 else
                 {
-                    key_pump_flag = 1;
+                    key_pump_in_flag = 1;
                 }
             }
             else if (key == KEY_SHORT_PC14)
@@ -203,20 +205,49 @@ void DevContoral_task(void *pvParameters)
                 key_softap_flag = 0;
                 key_reset_flag = 0;
                 // 处理排水泵按键
-                if (key_pump_flag == 1)
+                if (key_pump_out_flag == 1)
                 {
-                    pump_count++;
-                    if (pump_count % 2 == 1)
+                    pump_out_count++;
+                    if (pump_out_count % 2 == 1)
                     {
-                        Pump_ON();
-                        pump_state = 1;
+                        if (pump_in_state == 1) // 互斥保护：如果要开排水泵，先确保补水泵是关的
+                        {
+                            Pump_IN_OFF();
+                            pump_in_state = 0;
+                            pump_in_count = 0;
+                        }
+                        Pump_OUT_ON(); // 开启排水泵
+                        pump_out_state = 1;
                     }
                     else
                     {
-                        Pump_OFF();
-                        pump_state = 0;
+                        Pump_OUT_OFF(); // 关闭排水泵
+                        pump_out_state = 0;
                     }
-                    key_pump_flag = 0;
+                    key_pump_out_flag = 0;
+                }
+
+                // 处理补水泵按键
+                if (key_pump_in_flag == 1)
+                {
+                    pump_in_count++;
+                    if (pump_in_count % 2 == 1)
+                    {
+                        if (pump_out_state == 1) // 互斥保护：如果要开补水泵，先确保排水泵是关的
+                        {
+                            Pump_OUT_OFF();
+                            pump_out_state = 0;
+                            pump_out_count = 0;
+                        }
+                        Pump_IN_ON(); // 开启补水泵
+                        pump_in_state = 1;
+                    }
+                    else
+                    {
+                        Pump_IN_OFF(); // 关闭补水泵
+                        pump_in_state = 0;
+                    }
+                    key_pump_in_flag = 0;
                 }
 
                 // 处理加热片模块
@@ -258,41 +289,52 @@ void DevContoral_task(void *pvParameters)
 
                 key_servo_flag = 0;
                 key_ptc_flag = 0;
-                key_pump_flag = 0;
+                key_pump_in_flag = 0;
+                key_pump_out_flag = 0;
 
                 key_airlink_flag = 0;
                 key_softap_flag = 0;
                 key_reset_flag = 0;
 
-                if (level < 20)
+                if (level < Low_ThresholdVale)
                 {
-                    if (!pump_state)
+                    if (!pump_in_state)
                     {
-                        Pump_ON();
-                        pump_state = 1;
+                        if (pump_out_state == 1) // 互斥保护
+                        {
+                            Pump_OUT_OFF();
+                            pump_out_state = 0;
+                        }
+                        Pump_IN_ON(); // 自动模式下，如果水位低于20，开启补水泵
+                        pump_in_state = 1;
                     }
-                    else
+                }
+                else if (level >= Hight_ThresholdVale)
+                {
+                    if (pump_in_state)
                     {
-                        Pump_OFF();
-                        pump_state = 0;
+                        Pump_IN_OFF(); // 达到高水位，关闭补水泵
+                        pump_in_state = 0;
                     }
                 }
 
-                if (temp < 26)
+                if (temp < 260)   // 温度低于 26.0℃ 时打开加热片
                 {
                     if (!ptc_state)
                     {
                         PTC_ON();
                         ptc_state = 1;
                     }
-                    else
+                }
+                else              // 温度 >= 26.0℃ 时关闭加热片
+                {
+                    if (ptc_state)
                     {
                         PTC_OFF();
                         ptc_state = 0;
                     }
                 }
-
-                if ((100 - light) < Low_Light)
+                if ((100 - light) < 70)
                 {
                     LED_SetBrightness(light);
                 }
@@ -304,8 +346,17 @@ void DevContoral_task(void *pvParameters)
 
             case MODE_REMOTE:
 
+                if (pump_in_state) Pump_IN_OFF();
+                if (pump_out_state) Pump_OUT_OFF();
+                if (ptc_state) PTC_OFF();
+                if (servo_state) Servo_SetAngle(0);
+                LED_OFF();
+                pump_in_state = pump_out_state = ptc_state = servo_state = 0;
+                pump_in_count = pump_out_count = ptc_count = servo_count = 0;
+                
                 key_servo_flag = 0;
-                key_pump_flag = 0;
+                key_pump_in_flag = 0;
+                key_pump_out_flag = 0;
                 key_ptc_flag = 0;
 
                 if (key_airlink_flag == 1)
@@ -331,7 +382,7 @@ void DevContoral_task(void *pvParameters)
                 break;
 			}
         // 水位报警
-        if (level >= Hight_ThresholdVale || level == 0)
+        if (level >= Hight_ThresholdVale || level <= Low_ThresholdVale)
         {
             Buzzer_Turn();
         }
@@ -378,6 +429,7 @@ void Display_task(void *pvParameters)
                 case MODE_REMOTE:
                     Display_Remote(full_refresh);
                     break;
+
             }
        }
        else 

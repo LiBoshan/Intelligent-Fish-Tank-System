@@ -89,10 +89,12 @@ int8_t gizwitsEventProcess(eventInfo_t *info, uint8_t *gizdata, uint32_t len)
             if(0x01 == currentDataPoint.valueIn_WaterPump)
             {
             //user handle
+                Pump_IN_ON();
             }
             else
             {
             //user handle    
+                Pump_IN_OFF();
             }
             break;
         case EVENT_Out_WaterPump:
@@ -101,10 +103,12 @@ int8_t gizwitsEventProcess(eventInfo_t *info, uint8_t *gizdata, uint32_t len)
             if(0x01 == currentDataPoint.valueOut_WaterPump)
             {
             //user handle
+                Pump_OUT_ON();
             }
             else
             {
             //user handle    
+                Pump_OUT_OFF();
             }
             break;
         case EVENT_Fill_In_Light:
@@ -221,7 +225,7 @@ void userInit(void)
     currentDataPoint.valueHeater = 0;
     currentDataPoint.valueIn_WaterPump = 0;
     currentDataPoint.valueOut_WaterPump = 0;
-    currentDataPoint.valueFill_In_Light = 1;
+    currentDataPoint.valueFill_In_Light = 0;
     currentDataPoint.valueServo = 0;
     currentDataPoint.valueTemperature = 0;
     currentDataPoint.valueWaterLevel = 0;

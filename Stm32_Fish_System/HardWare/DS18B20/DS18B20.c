@@ -1,5 +1,11 @@
 #include "DS18B20.h"
 
+/**
+  * @brief   DS18B20模式
+  * @param   mode: OUT 推挽输出模式
+                   IN  浮空输入模式
+  * @retval  无
+  */
 void DS18B20_Mode(uint8_t mode)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
@@ -20,6 +26,11 @@ void DS18B20_Mode(uint8_t mode)
 	
 }
 
+/**
+  * @brief   DS18B20重置
+  * @param   无
+  * @retval  无
+  */
 void DS18B20_Rst(void)
 {
 	DS18B20_Mode(OUT);
@@ -92,6 +103,11 @@ uint8_t DS18B20_Read_Byte(void)
 	return data;
 }
 
+/**
+  * @brief   DS18B20写入一个字节
+  * @param   data: 要写入的字节
+  * @retval  无
+  */
 void DS18B20_Write_Byte(uint8_t data)
 {
 	uint8_t j, value;
@@ -117,6 +133,11 @@ void DS18B20_Write_Byte(uint8_t data)
 	}
 }
 
+/**
+  * @brief   DS18B20启动
+  * @param   无
+  * @retval  无
+  */
 void DS18B20_Start(void)
 {
 	DS18B20_Rst();
@@ -125,6 +146,12 @@ void DS18B20_Start(void)
 	DS18B20_Write_Byte(0x44);
 }
 
+/**
+  * @brief   DS18B20初始化
+  * @param   无
+  * @retval  返回 0 ：初始化失败
+             返回 1 ：初始化成功
+  */
 uint8_t DS18B20_Init(void)
 {
 	RCC_APB2PeriphClockCmd(DS18B20_GPIO_CLK, ENABLE);

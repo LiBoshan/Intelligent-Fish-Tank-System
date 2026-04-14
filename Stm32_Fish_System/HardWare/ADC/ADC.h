@@ -6,17 +6,17 @@
 
 extern uint16_t AD_Value[3];
 
+//浊度计算
 #define TS_K               204.17
 
-//macro definition GPIO-related parameters
 //宏定义 GPIO 相关参数
-#define ADC_GPIO_PORT      GPIOA
-#define ADC_GPIO_PIN_1     GPIO_Pin_5
-#define ADC_GPIO_PIN_2     GPIO_Pin_6
-#define ADC_GPIO_PIN_3     GPIO_Pin_7
-#define ADC_GPIO_PINS      (GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7)
+#define ADC_GPIO_PORT        GPIOA
+#define ADC_GPIO_PIN_1       GPIO_Pin_5
+#define ADC_GPIO_PIN_2       GPIO_Pin_6
+#define ADC_GPIO_PIN_3       GPIO_Pin_7
+#define ADC_GPIO_PINS        (GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7)
 
-//macro definition ADC-related parameters
+
 //宏定义 ADC 相关参数
 #define ADC_PORT             ADC1
 #define ADC_RCC_PERIPH_ADC   RCC_APB2Periph_ADC1

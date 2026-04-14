@@ -1,5 +1,10 @@
 #include "PWM.h"
 
+/**
+  * @brief   PWM初始化函数,分别配置舵机和补光灯
+  * @param   无
+  * @retval  无
+  */
 void PWM_Init(void)
 {
 	// 舵机配置
@@ -62,11 +67,23 @@ void PWM_Init(void)
 	TIM_Cmd(LED_TIM_PORT, ENABLE);
 }
 
+
+/**
+  * @brief   通道一设置,用于舵机
+  * @param   Compare,需要的数值
+  * @retval  无
+  */
 void PWM_SetCompare1(uint16_t Compare)
 {
 	TIM_SetCompare1(Servo_TIM_PORT, Compare);
 }
 
+
+/**
+  * @brief   通道二设置,用于补光灯
+  * @param   Compare,需要的数值
+  * @retval  无
+  */
 void PWM_SetCompare2(uint16_t Compare)
 {
 	TIM_SetCompare2(LED_TIM_PORT, Compare);

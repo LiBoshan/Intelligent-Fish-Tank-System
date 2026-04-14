@@ -2,18 +2,18 @@
 
 typedef struct {
     uint8_t last_state;        // 上一次电平状态 (1=释放, 0=按下)
-    uint32_t press_start_time; // 电平变化时的时间戳
-    uint32_t last_return_time;
+    uint32_t press_start_time; // 电平变化时的时间戳 
     uint8_t short_triggered;
     uint8_t long_triggered;
-    uint8_t key_num;          // 该按键对应的键值（未使用，保留）
+    uint8_t key_num;           // 该按键对应的键值
 } Key_HandleTypeDef;
 
+
 static Key_HandleTypeDef keys[4] = {
-    {1, 0, 0, 0, 0, 0},
-    {1, 0, 0, 0, 0, 0},
-    {1, 0, 0, 0, 0, 0},
-    {1, 0, 0, 0, 0, 0},
+    {1, 0, 0, 0, 0},
+    {1, 0, 0, 0, 0},
+    {1, 0, 0, 0, 0},
+    {1, 0, 0, 0, 0},
 };
 
 static const uint16_t key_pins[4] = {GPIO_Pin_12, GPIO_Pin_13, GPIO_Pin_14, GPIO_Pin_15};
@@ -34,6 +34,7 @@ static uint8_t Key_ScanSingle(uint8_t index)
 {
     uint32_t current_time = gizGetTimerCount();
     uint8_t current_state = GPIO_ReadInputDataBit(KEY_GPIO_PORT, key_pins[index]);
+    
     uint8_t short_key = key_num_map[index];
     uint8_t long_key = short_key + 10;
 

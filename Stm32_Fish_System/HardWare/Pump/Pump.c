@@ -6,19 +6,33 @@ void Pump_Init(void)
 
     GPIO_InitTypeDef GPIO_InitStructure;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-    GPIO_InitStructure.GPIO_Pin = PUMP_GPIO_PIN;
+    GPIO_InitStructure.GPIO_Pin = PUMP_GPIO_PINS;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+
     GPIO_Init(PUMP_GPIO_PORT, &GPIO_InitStructure);
-
-    Pump_OFF();
+    
+    // 默认关闭水泵
+    Pump_IN_OFF();
+    Pump_OUT_OFF();
 }
 
-void Pump_OFF(void)
+void Pump_IN_ON(void)
 {
-    GPIO_ResetBits(PUMP_GPIO_PORT, PUMP_GPIO_PIN);
+    GPIO_SetBits(PUMP_GPIO_PORT, PUMP_GPIO_PIN_IN);
 }
 
-void Pump_ON(void)
+void Pump_IN_OFF(void)
 {
-    GPIO_SetBits(PUMP_GPIO_PORT, PUMP_GPIO_PIN);
+    GPIO_ResetBits(PUMP_GPIO_PORT, PUMP_GPIO_PIN_IN);
 }
+
+void Pump_OUT_ON(void)
+{
+    GPIO_SetBits(PUMP_GPIO_PORT, PUMP_GPIO_PIN_OUT);
+}
+
+void Pump_OUT_OFF(void)
+{
+    GPIO_ResetBits(PUMP_GPIO_PORT, PUMP_GPIO_PIN_OUT);
+}
+

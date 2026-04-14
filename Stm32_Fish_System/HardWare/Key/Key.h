@@ -4,7 +4,10 @@
 #include "stm32f10x.h"                  // Device header
 #include "gizwits_product.h"
 
+//按键消抖时长
 #define KEY_DEBOUNCE_TIME     20
+
+//按键长按时间
 #define KEY_LONG_PRESS_TIME   1000
 
 #define KEY_GPIO_PORT   GPIOB

@@ -4,6 +4,11 @@ uint16_t Empty_ADC = 0;
 uint16_t Full_ADC = 4095;
 uint16_t AD_Value[3];
 
+/**
+  * @brief   ADC初始化
+  * @param   无
+  * @retval  无
+  */
 void AD_Init(void)
 {
 	//使能 ADC 和 GPIO 以及 DMA1 时钟
@@ -69,6 +74,12 @@ void AD_Init(void)
 	ADC_SoftwareStartConvCmd(ADC_PORT, ENABLE);
 }
 
+
+/**
+  * @brief   获取浊度传感器数值
+  * @param   无
+  * @retval  浊度值
+  */
 uint16_t TS_GetData(void)
 {
     uint16_t data = AD_Value[0];
@@ -80,16 +91,38 @@ uint16_t TS_GetData(void)
     return (uint16_t)TS_data;
 }
 
+
+/**
+  * @brief   获取水位传感器数值
+  * @param   无
+  * @retval  水位值
+  */
 uint16_t Water_GetLevel(void)
 {
-    uint16_t level = AD_Value[1];
+    uint32_t sum = 0;
+    for (uint8_t i = 0; i < 10; i++)
+    {
+        sum += AD_Value[1];
+    }
+    uint16_t level = sum / 10;
     uint16_t data = (level - Empty_ADC) * 100 / (Full_ADC - Empty_ADC);
     return data;
 }
 
+
+/**
+  * @brief   获取光敏传感器数值
+  * @param   无
+  * @retval  光照强度
+  */
 uint16_t Photosensitive_GetValue(void)
 {
-    uint16_t Photo_Value = AD_Value[2];
+	uint32_t sum = 0;
+    for (uint8_t i = 0; i < 10; i++)
+    {
+        sum += AD_Value[2];
+    }
+    uint16_t Photo_Value = sum / 10;
     uint16_t data = (Photo_Value - Empty_ADC) * 100 / (Full_ADC - Empty_ADC);
     return data;
 }
