@@ -117,7 +117,7 @@ int8_t gizwitsEventProcess(eventInfo_t *info, uint8_t *gizdata, uint32_t len)
             if(0x01 == currentDataPoint.valueFill_In_Light)
             {
             //user handle
-                LED_SetBrightness(light);
+                LED_SetBrightness(100);
             }
             else
             {
@@ -225,7 +225,7 @@ void userInit(void)
     currentDataPoint.valueHeater = 0;
     currentDataPoint.valueIn_WaterPump = 0;
     currentDataPoint.valueOut_WaterPump = 0;
-    currentDataPoint.valueFill_In_Light = 0;
+    currentDataPoint.valueFill_In_Light = 1;
     currentDataPoint.valueServo = 0;
     currentDataPoint.valueTemperature = 0;
     currentDataPoint.valueWaterLevel = 0;

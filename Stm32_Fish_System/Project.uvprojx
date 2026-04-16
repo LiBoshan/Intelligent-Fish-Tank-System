@@ -336,7 +336,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>.\Start;.\Library;.\User;.\HardWare\DUOJI;.\HardWare\ADC;.\HardWare\DS18B20;.\HardWare\Key;.\HardWare\LED;.\System\USART;.\System\Timer;.\System\USART2;.\Gizwits;.\Utils;.\HardWare\Buzzer;.\HardWare\Pump;.\FreeRTOS\include;.\FreeRTOS\port\MemMang;.\FreeRTOS\port\ARM_CM3;.\FreeRTOS\src;.\HardWare\PTC;.\HardWare\OLED;.\HardWare\Display</IncludePath>
+              <IncludePath>.\Start;.\Library;.\User;.\HardWare\DUOJI;.\HardWare\ADC;.\HardWare\DS18B20;.\HardWare\Key;.\HardWare\LED;.\System\USART;.\System\Timer;.\System\USART2;.\Gizwits;.\Utils;.\HardWare\Buzzer;.\HardWare\Pump;.\FreeRTOS\include;.\FreeRTOS\port\MemMang;.\FreeRTOS\port\ARM_CM3;.\FreeRTOS\src;.\HardWare\PTC;.\HardWare\OLED;.\HardWare\Display;.\System\FlashStorage;.\HardWare\Threshold</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -765,6 +765,16 @@
               <FileType>5</FileType>
               <FilePath>.\HardWare\Display\Display.h</FilePath>
             </File>
+            <File>
+              <FileName>Threshold_config.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\HardWare\Threshold\Threshold_config.c</FilePath>
+            </File>
+            <File>
+              <FileName>Threshold_config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\HardWare\Threshold\Threshold_config.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -799,6 +809,16 @@
               <FileName>USART2.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\System\USART2\USART2.h</FilePath>
+            </File>
+            <File>
+              <FileName>FlashStorage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\System\FlashStorage\FlashStorage.c</FilePath>
+            </File>
+            <File>
+              <FileName>FlashStorage.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\System\FlashStorage\FlashStorage.h</FilePath>
             </File>
           </Files>
         </Group>

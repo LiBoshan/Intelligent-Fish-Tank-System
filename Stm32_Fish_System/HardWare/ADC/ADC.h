@@ -6,9 +6,6 @@
 
 extern uint16_t AD_Value[3];
 
-//浊度计算
-#define TS_K               204.17
-
 //宏定义 GPIO 相关参数
 #define ADC_GPIO_PORT        GPIOA
 #define ADC_GPIO_PIN_1       GPIO_Pin_5
@@ -24,6 +21,7 @@ extern uint16_t AD_Value[3];
 #define ADC_CLK_DIV          RCC_PCLK2_Div6
 #define ADC_SAMPLE_TIME      ADC_SampleTime_55Cycles5
 
+#define U0_DIV_MV  3300
 
 void AD_Init(void);
 uint16_t TS_GetData(void);

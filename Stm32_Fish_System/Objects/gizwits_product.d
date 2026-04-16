@@ -54,6 +54,8 @@
 .\objects\gizwits_product.o: .\HardWare\Pump\Pump.h
 .\objects\gizwits_product.o: .\HardWare\PTC\PTC.h
 .\objects\gizwits_product.o: .\HardWare\Display\Display.h
+.\objects\gizwits_product.o: .\HardWare\Threshold\Threshold_Config.h
+.\objects\gizwits_product.o: .\System\FlashStorage\FlashStorage.h
 .\objects\gizwits_product.o: .\User\main_freertos.h
 .\objects\gizwits_product.o: .\FreeRTOS\include\FreeRTOS.h
 .\objects\gizwits_product.o: C:\Users\27335\Desktop\Keil5\ARM\ARMCC\Bin\..\include\stddef.h
@@ -66,3 +68,4 @@
 .\objects\gizwits_product.o: .\FreeRTOS\include\task.h
 .\objects\gizwits_product.o: .\FreeRTOS\include\list.h
 .\objects\gizwits_product.o: .\User\main.h
+.\objects\gizwits_product.o: .\HardWare\Threshold\Threshold_Config.h

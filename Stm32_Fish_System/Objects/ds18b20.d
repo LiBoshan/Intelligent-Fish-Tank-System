@@ -56,6 +56,8 @@
 .\objects\ds18b20.o: .\HardWare\Pump\Pump.h
 .\objects\ds18b20.o: .\HardWare\PTC\PTC.h
 .\objects\ds18b20.o: .\HardWare\Display\Display.h
+.\objects\ds18b20.o: .\HardWare\Threshold\Threshold_Config.h
+.\objects\ds18b20.o: .\System\FlashStorage\FlashStorage.h
 .\objects\ds18b20.o: .\User\main_freertos.h
 .\objects\ds18b20.o: .\FreeRTOS\include\FreeRTOS.h
 .\objects\ds18b20.o: C:\Users\27335\Desktop\Keil5\ARM\ARMCC\Bin\..\include\stddef.h
@@ -68,3 +70,4 @@
 .\objects\ds18b20.o: .\FreeRTOS\include\task.h
 .\objects\ds18b20.o: .\FreeRTOS\include\list.h
 .\objects\ds18b20.o: .\User\main.h
+.\objects\ds18b20.o: .\HardWare\Threshold\Threshold_Config.h

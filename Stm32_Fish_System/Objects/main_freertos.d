@@ -65,4 +65,6 @@
 .\objects\main_freertos.o: .\HardWare\Pump\Pump.h
 .\objects\main_freertos.o: .\HardWare\PTC\PTC.h
 .\objects\main_freertos.o: .\HardWare\Display\Display.h
+.\objects\main_freertos.o: .\HardWare\Threshold\Threshold_Config.h
+.\objects\main_freertos.o: .\System\FlashStorage\FlashStorage.h
 .\objects\main_freertos.o: .\User\main_freertos.h

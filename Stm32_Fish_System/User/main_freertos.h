@@ -4,6 +4,8 @@
 #include "FreeRTOS.h"
 #include "task.h"
 #include "main.h"
+#include "FlashStorage.h"
+#include "Threshold_Config.h"
 
 #define KEY_SHORT_PC12   1
 #define KEY_SHORT_PC13   2
@@ -39,7 +41,8 @@ extern TaskHandle_t gizwits_task_handle;
 typedef enum {
     MODE_MANUAL = 0,
     MODE_AUTO,
-    MODE_REMOTE
+    MODE_REMOTE,
+    MODE_THRESHOLD_SET
 } SystemMode_t;
 
 // 菜单状态
@@ -51,11 +54,8 @@ typedef enum{
 extern SystemMode_t currentMode;
 extern MenuState_t menuState;
 extern uint8_t selectModeIndex;
+extern uint8_t selectThresholdIndex;
 extern uint8_t current_esp_mode;
-
-extern volatile uint8_t servo_state;
-extern volatile uint8_t pump_state;
-extern volatile uint8_t ptc_state;
 
 extern volatile uint16_t tsdata;
 extern volatile uint16_t level;
@@ -68,6 +68,5 @@ void Key_task(void *pvParameters);
 void DevContoral_task(void *pvParameters);
 void Display_task(void *pvParameters);
 void Gizwits_task(void *pvParameters);
-
 
 #endif

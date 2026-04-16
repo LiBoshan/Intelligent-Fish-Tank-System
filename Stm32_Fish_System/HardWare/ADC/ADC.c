@@ -74,21 +74,23 @@ void AD_Init(void)
 	ADC_SoftwareStartConvCmd(ADC_PORT, ENABLE);
 }
 
-
-/**
-  * @brief   获取浊度传感器数值
-  * @param   无
-  * @retval  浊度值
-  */
 uint16_t TS_GetData(void)
 {
-    uint16_t data = AD_Value[0];
-    if (data >= 4090) return 0;
-    float TS_data = (data / 4096.0) * 3.3;
-    TS_data = -856.68 * TS_data + TS_K;
-    if(TS_data < 0) TS_data = 0;
-    if(TS_data > 3000) TS_data = 3000;
-    return (uint16_t)TS_data;
+    uint32_t sum = 0;
+    for (uint8_t i = 0; i < 10; i++) {
+        sum += AD_Value[0];
+        for (volatile uint32_t delay = 0; delay < 200; delay++);
+    }
+    uint16_t adc_raw = sum / 10;
+    uint32_t voltage_div_mv = (uint32_t)adc_raw * 3300 / Full_ADC;
+    float f = (float)voltage_div_mv / U0_DIV_MV;
+    if (f > 1.0f) f = 1.0f;
+    if (f < 0.15f) f = 0.15f;
+    uint16_t ntu = (uint16_t)((1.0f - f) / 0.85f * 4000.0f);
+    if (ntu > 4000) ntu = 4000;
+    // 将NTU值转换为百分比 (0-100)
+    uint16_t percentage_turbidity = (uint16_t)((float)ntu / 4000.0f * 100.0f);
+    return percentage_turbidity;
 }
 
 
@@ -103,6 +105,7 @@ uint16_t Water_GetLevel(void)
     for (uint8_t i = 0; i < 10; i++)
     {
         sum += AD_Value[1];
+		for (volatile uint32_t delay = 0; delay < 200; delay++);
     }
     uint16_t level = sum / 10;
     uint16_t data = (level - Empty_ADC) * 100 / (Full_ADC - Empty_ADC);
@@ -121,6 +124,7 @@ uint16_t Photosensitive_GetValue(void)
     for (uint8_t i = 0; i < 10; i++)
     {
         sum += AD_Value[2];
+		for (volatile uint32_t delay = 0; delay < 200; delay++);
     }
     uint16_t Photo_Value = sum / 10;
     uint16_t data = (Photo_Value - Empty_ADC) * 100 / (Full_ADC - Empty_ADC);

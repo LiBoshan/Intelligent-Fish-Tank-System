@@ -35,8 +35,10 @@ void Display_Manual(uint8_t full_refresh)
     {
         OLED_Clear();
 
-        OLED_ShowChinese(1, 7, 18);
-        OLED_ShowChinese(1, 8, 19);
+        OLED_ShowChinese(1, 8, 18);
+        OLED_ShowChinese(2, 8, 19);
+        OLED_ShowChinese(3, 8, 8);
+        OLED_ShowChinese(4, 8, 9);
 
         // 排水泵标签
         OLED_ShowChinese(1, 1, 80);
@@ -73,25 +75,29 @@ void Display_Auto(uint8_t full_refresh)
 
         OLED_Clear();
 
-        OLED_ShowChinese(1, 7, 16);
-        OLED_ShowChinese(1, 8, 17);
+        OLED_ShowChinese(1, 8, 16);
+        OLED_ShowChinese(2, 8, 17);
+        OLED_ShowChinese(3, 8, 8);
+        OLED_ShowChinese(4, 8, 9);
 
         // 水位标签
         OLED_ShowChinese(1, 1, 39);
         OLED_ShowChinese(1, 2, 40);
         OLED_ShowString(1, 5, ":");
-        OLED_ShowString(1, 8, "%");
+        OLED_ShowString(1, 9, "%");
 
         // 浊度标签
         OLED_ShowChinese(2, 1, 37);
         OLED_ShowChinese(2, 2, 38);
         OLED_ShowString(2, 5, ":");
+        OLED_ShowString(2, 9, "%");
 
         // 光照标签
         OLED_ShowChinese(3, 1, 4);
         OLED_ShowChinese(3, 2, 5);
         OLED_ShowString(3, 5, ":");
-        OLED_ShowString(3, 8, "%");
+        OLED_ShowString(3, 9, "%");
+
 
         // 温度标签
         OLED_ShowChinese(4, 1, 26);
@@ -100,28 +106,25 @@ void Display_Auto(uint8_t full_refresh)
     }
 
     // 水位数值
-    OLED_ShowNum(1, 6, level, 2);
+    OLED_ShowNum(1, 6, level, 3);
 
     // 浊度数值
-    OLED_ShowNum(2, 6, tsdata, 4);
+    OLED_ShowNum(2, 6, tsdata, 3);
 
     // 光照数值
-    OLED_ShowNum(3, 6, (100 - light), 2);
+    OLED_ShowNum(3, 6, (100 - light), 3);
 
     // 温度数值
-    int16_t temp_val = temp;
-    if (temp_val < 0)
-    {
+    int16_t temp_display = temp;
+    if (temp_display < 0) {
         OLED_ShowChar(4, 6, '-');
-        temp_val = -temp_val;
-    }
-    else
-    {
+        temp_display = -temp_display;
+    } else {
         OLED_ShowChar(4, 6, '+');
     }
-    OLED_ShowNum(4, 7, temp_val / 10, 2);
+    OLED_ShowNum(4, 7, temp_display / 10, 2);   // 整数部分
     OLED_ShowChar(4, 9, '.');
-    OLED_ShowNum(4, 10, temp_val % 10, 1);
+    OLED_ShowNum(4, 10, temp_display % 10, 1);  // 小数部分
 }
 
 void Display_Remote(uint8_t full_refresh)
@@ -130,64 +133,103 @@ void Display_Remote(uint8_t full_refresh)
     {
         OLED_Clear();
 
-        OLED_ShowChinese(1, 7, 20);
-        OLED_ShowChinese(1, 8, 21);
+        OLED_ShowChinese(1, 1, 20);
+        OLED_ShowChinese(1, 2, 21);
+        OLED_ShowChinese(1, 3, 8);
+        OLED_ShowChinese(1, 4, 9);
         
         // 显示当前ESP模式标签
-        OLED_ShowString(1, 1, "Mode:");
+        OLED_ShowString(2, 1, "Mode:");
 
         // 水位标签
         OLED_ShowString(3, 1, "lev:");
-        OLED_ShowString(3, 7, "%");
+        OLED_ShowString(3, 8, "%");
 
         // 浊度标签
         OLED_ShowString(3, 10, "ts:");
+        OLED_ShowString(3, 16, "%");
 
         // 光照标签
         OLED_ShowString(4, 1, "pho:");
-        OLED_ShowString(4, 7, "%");
+        OLED_ShowString(4, 8, "%");
 
         // 温度标签
         OLED_ShowString(4, 10, "tem:");
     }
     
     // 水位数值
-    OLED_ShowNum(3, 5, level, 2);
+    OLED_ShowNum(3, 5, level, 3);
 
     // 浊度数值
-    OLED_ShowNum(3, 13, tsdata, 4);
+    OLED_ShowNum(3, 13, tsdata, 3);
 
     // 光照数值
-    OLED_ShowNum(4, 5, (100 - light), 2);
+    OLED_ShowNum(4, 5, (100 - light), 3);
 
     // 温度数值
     int16_t temp_val = temp;
-    if (temp_val < 0)
-    {
+    if (temp_val < 0) {
         OLED_ShowChar(4, 14, '-');
         temp_val = -temp_val;
-    }
-    else
-    {
+    } else {
         OLED_ShowChar(4, 14, '+');
     }
-    OLED_ShowNum(4, 15, temp_val / 10, 2);
+    OLED_ShowNum(4, 15, temp_val / 10, 2);  // 整数部分
 
     // 动态显示模式
     if (current_esp_mode == 1) 
     {
-        OLED_ShowString(2, 1, "AirLink  ");
+        OLED_ShowString(2, 7, "AirLink");
     } 
     else if (current_esp_mode == 2) 
     {
-        OLED_ShowString(2, 1, "SoftAP   ");
+        OLED_ShowString(2, 7, "SoftAP ");
     } 
     else if (current_esp_mode == 3) 
     {
-        OLED_ShowString(2, 1, "Resetting");
+        OLED_ShowString(2, 7, "Reset  ");
     } 
     else 
     {
-        OLED_ShowString(2, 1, "None     ");
+        OLED_ShowString(2, 7, "None   ");
     }
+}
+
+void Display_Threshold_Set(uint8_t full_refresh)
+{
+    static char* th_names[] = {"Low Level", "High Level", "Low Temp", "High Temp", "Light", "Turbidity"};
+    static uint8_t last_index = 0xFF;
+    
+    if (full_refresh || last_index != selectThresholdIndex)
+    {
+        OLED_Clear();
+        OLED_ShowString(1, 1, "Set Thresholds");
+        OLED_ShowString(2, 1, "----------------");
+        // 显示当前选中项的名称和值
+        last_index = selectThresholdIndex;
+    }
+    
+    // 获取当前选中的阈值指针和值
+    uint8_t *ptr = NULL;
+    switch(selectThresholdIndex) {
+        case THRESHOLD_WATER_LOW:  
+            ptr = &Low_Level; break;
+        case THRESHOLD_WATER_HIGH: 
+            ptr = &High_Level; break;
+        case THRESHOLD_TEMP_LOW:   
+            ptr = &Low_Temp; break;
+        case THRESHOLD_TEMP_HIGH:  
+            ptr = &High_Temp; break;
+        case THRESHOLD_LIGHT:      
+            ptr = &Threshold_Light; break;
+        case THRESHOLD_TURBIDITY:         
+            ptr = &Threshold_TS; break;
+        default: return;
+    }
+    
+    OLED_ShowString(3, 1, th_names[selectThresholdIndex]);
+    OLED_ShowString(3, 12, ":");
+    OLED_ShowNum(3, 14, *ptr, 3);
+
+    OLED_ShowString(4, 1, "Long : Switch");
 }

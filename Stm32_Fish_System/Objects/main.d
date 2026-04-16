@@ -54,6 +54,8 @@
 .\objects\main.o: .\HardWare\Pump\Pump.h
 .\objects\main.o: .\HardWare\PTC\PTC.h
 .\objects\main.o: .\HardWare\Display\Display.h
+.\objects\main.o: .\HardWare\Threshold\Threshold_Config.h
+.\objects\main.o: .\System\FlashStorage\FlashStorage.h
 .\objects\main.o: .\User\main_freertos.h
 .\objects\main.o: .\FreeRTOS\include\FreeRTOS.h
 .\objects\main.o: C:\Users\27335\Desktop\Keil5\ARM\ARMCC\Bin\..\include\stddef.h
@@ -65,3 +67,4 @@
 .\objects\main.o: .\FreeRTOS\include\mpu_wrappers.h
 .\objects\main.o: .\FreeRTOS\include\task.h
 .\objects\main.o: .\FreeRTOS\include\list.h
+.\objects\main.o: .\HardWare\Threshold\Threshold_Config.h

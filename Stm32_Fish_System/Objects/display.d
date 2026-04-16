@@ -30,6 +30,10 @@
 .\objects\display.o: .\Library\stm32f10x_wwdg.h
 .\objects\display.o: .\Library\misc.h
 .\objects\display.o: .\HardWare\OLED\OLED.h
+.\objects\display.o: .\HardWare\Threshold\Threshold_Config.h
+.\objects\display.o: C:\Users\27335\Desktop\Keil5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\display.o: .\System\FlashStorage\FlashStorage.h
+.\objects\display.o: C:\Users\27335\Desktop\Keil5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\objects\display.o: .\User\main_freertos.h
 .\objects\display.o: .\FreeRTOS\include\FreeRTOS.h
 .\objects\display.o: C:\Users\27335\Desktop\Keil5\ARM\ARMCC\Bin\..\include\stddef.h
@@ -51,9 +55,7 @@
 .\objects\display.o: .\System\Timer\Timer.h
 .\objects\display.o: .\Gizwits\gizwits_product.h
 .\objects\display.o: .\Gizwits\gizwits_protocol.h
-.\objects\display.o: C:\Users\27335\Desktop\Keil5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\objects\display.o: C:\Users\27335\Desktop\Keil5\ARM\ARMCC\Bin\..\include\stdlib.h
-.\objects\display.o: C:\Users\27335\Desktop\Keil5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\display.o: .\Utils\common.h
 .\objects\display.o: C:\Users\27335\Desktop\Keil5\ARM\ARMCC\Bin\..\include\ctype.h
 .\objects\display.o: .\User\main.h
@@ -66,3 +68,4 @@
 .\objects\display.o: .\HardWare\Pump\Pump.h
 .\objects\display.o: .\HardWare\PTC\PTC.h
 .\objects\display.o: .\HardWare\Display\Display.h
+.\objects\display.o: .\HardWare\Threshold\Threshold_Config.h
