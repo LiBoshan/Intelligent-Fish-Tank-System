@@ -203,7 +203,7 @@ void userHandle(void)
 
     currentDataPoint.valueTemperature = temp / 10;//Add Sensor Data Collection  温度
     currentDataPoint.valueWaterLevel = level;//Add Sensor Data Collection   水位
-    currentDataPoint.valueLight = light;//Add Sensor Data Collection        光照
+    currentDataPoint.valueLight = 100 - light;//Add Sensor Data Collection        光照
     currentDataPoint.valueTurbidity = tsdata;//Add Sensor Data Collection    浊度
     
 }
@@ -225,7 +225,7 @@ void userInit(void)
     currentDataPoint.valueHeater = 0;
     currentDataPoint.valueIn_WaterPump = 0;
     currentDataPoint.valueOut_WaterPump = 0;
-    currentDataPoint.valueFill_In_Light = 1;
+    currentDataPoint.valueFill_In_Light = 0;
     currentDataPoint.valueServo = 0;
     currentDataPoint.valueTemperature = 0;
     currentDataPoint.valueWaterLevel = 0;

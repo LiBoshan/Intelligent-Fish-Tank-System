@@ -22,6 +22,8 @@ extern volatile uint16_t level;
 extern volatile uint16_t light;
 extern volatile int16_t temp;
 
+extern volatile uint32_t threshold_save_tick;
+
 extern volatile uint8_t pump_out_state;
 extern volatile uint8_t pump_in_state;
 extern volatile uint8_t ptc_state;

@@ -230,6 +230,14 @@ void Display_Threshold_Set(uint8_t full_refresh)
     OLED_ShowString(3, 1, th_names[selectThresholdIndex]);
     OLED_ShowString(3, 12, ":");
     OLED_ShowNum(3, 14, *ptr, 3);
-
-    OLED_ShowString(4, 1, "Long : Switch");
+	// 判断保存提示的显示
+    TickType_t now = xTaskGetTickCount();
+    if (threshold_save_tick != 0 && (now - threshold_save_tick) < pdMS_TO_TICKS(2000))
+    {
+        OLED_ShowString(4, 1, "Saved!          ");
+    }
+    else
+    {
+        OLED_ShowString(4, 1, "Long PB15:Save  ");
+    }
 }

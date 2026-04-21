@@ -4,7 +4,7 @@
 #include "stm32f10x.h"                  // Device header
 
 #define PTC_GPIO_CLOCK  RCC_APB2Periph_GPIOB
-#define PTC_GPIO_POPT   GPIOB
+#define PTC_GPIO_PORT   GPIOB
 #define PTC_GPIO_PIN    GPIO_Pin_1
 
 void PTC_Init(void);

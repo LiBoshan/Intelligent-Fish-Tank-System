@@ -26,6 +26,7 @@ uint8_t Low_Temp = 26;
 uint8_t Threshold_Light = 70;
 uint8_t Threshold_TS = 60;
 
+volatile uint32_t threshold_save_tick = 0;   // 记录保存时的系统 tick
 
 volatile uint8_t servo_state = 0;
 volatile uint8_t pump_out_state = 0;
@@ -42,14 +43,6 @@ volatile uint8_t key_ptc_flag = 0;
 volatile uint8_t key_airlink_flag = 0;
 volatile uint8_t key_softap_flag = 0;
 volatile uint8_t key_reset_flag = 0;
-
-// 阈值设置模式下的备份（用于取消修改时恢复）
-static uint8_t backup_Low_Level;
-static uint8_t backup_High_Level;
-static uint8_t backup_Low_Temp;
-static uint8_t backup_High_Temp;
-static uint8_t backup_Threshold_Light;
-static uint8_t backup_Threshold_TS;
 
 // ESP当前模式 (0=未设置, 1=AirLink, 2=SoftAP, 3=Rest)
 uint8_t current_esp_mode = 0;
@@ -131,7 +124,7 @@ void Key_task(void *pvParameters)
 
         if (key != 0)
         {
-            if (key == KEY_LONG_PC12)
+            if (key == KEY_LONG_PB12)
             {
                 if (menuState == MENU_NONE)
                 {
@@ -144,7 +137,7 @@ void Key_task(void *pvParameters)
                     current_esp_mode = 0;
                 }
             }
-            else if (key == KEY_SHORT_PC12)
+            else if (key == KEY_SHORT_PB12)
             {
                 if (menuState == MENU_NONE) // 只有不在菜单时才处理设备控制
                 {
@@ -163,7 +156,7 @@ void Key_task(void *pvParameters)
                 }
             }
 
-            else if (key == KEY_SHORT_PC13)
+            else if (key == KEY_SHORT_PB13)
             {
                 if (menuState == MENU_SELECT)
                 {
@@ -184,19 +177,10 @@ void Key_task(void *pvParameters)
                 }
             }
 
-            else if (key == KEY_LONG_PC13)
+            else if (key == KEY_LONG_PB13)
             {
                 if (menuState == MENU_NONE && currentMode == MODE_AUTO)
                 {
-
-                    // 进入设置模式前，备份当前阈值
-                    backup_Low_Level = Low_Level;
-                    backup_High_Level = High_Level;
-                    backup_Low_Temp = Low_Temp;
-                    backup_High_Temp = High_Temp;
-                    backup_Threshold_Light = Threshold_Light;
-                    backup_Threshold_TS = Threshold_TS;
-
                     currentMode = MODE_THRESHOLD_SET;
                     selectThresholdIndex = 0;
                     Threshold_Select((ThresholdType_t)selectThresholdIndex);
@@ -215,7 +199,7 @@ void Key_task(void *pvParameters)
                 }
             }
 
-            else if (key == KEY_SHORT_PC14)
+            else if (key == KEY_SHORT_PB14)
             {
                 if (menuState == MENU_SELECT)
                 {
@@ -231,7 +215,7 @@ void Key_task(void *pvParameters)
                     key_ptc_flag = 1;
                 }
             }
-            else if (key == KEY_LONG_PC14)
+            else if (key == KEY_LONG_PB14)
             {
                 if (currentMode == MODE_REMOTE)
                 {
@@ -247,7 +231,7 @@ void Key_task(void *pvParameters)
                     Threshold_Select((ThresholdType_t)selectThresholdIndex);
                 }
             }
-            else if (key == KEY_SHORT_PC15)
+            else if (key == KEY_SHORT_PB15)
             {
                 if (menuState == MENU_SELECT)
                 {
@@ -265,13 +249,6 @@ void Key_task(void *pvParameters)
                 }
                 else if (currentMode == MODE_THRESHOLD_SET)
                 {
-                    // 取消修改，恢复备份的阈值
-                    Low_Level       = backup_Low_Level;
-                    High_Level      = backup_High_Level;
-                    Low_Temp        = backup_Low_Temp;
-                    High_Temp       = backup_High_Temp;
-                    Threshold_Light = backup_Threshold_Light;
-                    Threshold_TS    = backup_Threshold_TS;
                     currentMode = MODE_AUTO;
                     menuState = MENU_NONE;
                 }
@@ -280,13 +257,14 @@ void Key_task(void *pvParameters)
                     key_servo_flag = 1;
                 }
             }
-            else if (key == KEY_LONG_PC15)
+            if (key == KEY_LONG_PB15)
             {
                 if (currentMode == MODE_THRESHOLD_SET)
                 {
+                    taskENTER_CRITICAL();
                     Threshold_Save();
-                    currentMode = MODE_AUTO;
-                    menuState = MENU_NONE;
+                    taskEXIT_CRITICAL();
+					threshold_save_tick = xTaskGetTickCount(); 
                 }
             }
         }
@@ -463,10 +441,9 @@ void DevContoral_task(void *pvParameters)
                 if (pump_out_state) Pump_OUT_OFF();
                 if (ptc_state) PTC_OFF();
                 if (servo_state) Servo_SetAngle(0);
-				LED_OFF();
                 
                 pump_in_state = pump_out_state = ptc_state = servo_state = 0;
-                pump_in_count = pump_out_count = ptc_count = servo_count = 0;
+                pump_in_count = pump_out_count = ptc_count = servo_count = 0;	
                 
                 key_servo_flag = 0;
                 key_pump_in_flag = 0;

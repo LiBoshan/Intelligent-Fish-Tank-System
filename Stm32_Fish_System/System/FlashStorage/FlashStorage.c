@@ -12,45 +12,40 @@ bool FlashStorage_Write(uint8_t *data, uint8_t data_len)
     uint8_t new_data_with_crc[data_len + 1];
     uint8_t crc;
 
-    if (is_page_valid(FLASH_STORAGE_PAGE0_BASE))
-    {
+    if (is_page_valid(FLASH_STORAGE_PAGE0_BASE)) {
         active_page = FLASH_STORAGE_PAGE0_BASE;
         backup_page = FLASH_STORAGE_PAGE1_BASE;
-    }
-    else if (is_page_valid(FLASH_STORAGE_PAGE1_BASE))
-    {
+    } else if (is_page_valid(FLASH_STORAGE_PAGE1_BASE)) {
         active_page = FLASH_STORAGE_PAGE1_BASE;
         backup_page = FLASH_STORAGE_PAGE0_BASE;
-    }
-    else
-    {
+    } else {
         erase_page(FLASH_STORAGE_PAGE0_BASE);
         active_page = FLASH_STORAGE_PAGE0_BASE;
         backup_page = FLASH_STORAGE_PAGE1_BASE;
     }
 
     crc = calc_crc8(data, data_len);
-    memcpy (new_data_with_crc, data, data_len);
+    memcpy(new_data_with_crc, data, data_len);
     new_data_with_crc[data_len] = crc;
 
     uint8_t same = 1;
-    for (uint8_t i = 0; i < data_len; i++)
-    {
-        if (*(volatile uint8_t*)(active_page + i) != new_data_with_crc[i])
-        {
+    for (uint8_t i = 0; i < data_len + 1; i++) {
+        if (*(volatile uint8_t*)(active_page + i) != new_data_with_crc[i]) {
             same = 0;
             break;
         }
     }
     if (same) return true;
+
     erase_page(backup_page);
     write_data_to_page(backup_page, new_data_with_crc, data_len + 1);
-
 
     uint32_t flag_addr = backup_page + FLASH_PAGE_SIZE - 2;
     FLASH_Unlock();
     FLASH_ProgramHalfWord(flag_addr, STORAGE_FLAG_VALID);
     FLASH_Lock();
+
+    erase_page(active_page);
 
     return true;
 }
